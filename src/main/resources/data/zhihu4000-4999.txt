@@ -14191,8 +14191,7 @@ http://www.enlataberna.com/libros/archivos/curso%20de%20cabala%20y%20tarot.pdf�
 <DOC>
 <DOCNO>zhihu-4820</DOCNO>
 <DOCURL>http://www.zhihu.com/question/29004809</DOCURL>
-<title>百度知道的推荐怎么这么可怕？
-我不过是搜索如何添加我word脚注？</title>
+<title>百度知道的推荐怎么这么可怕？我不过是搜索如何添加我word脚注？</title>
 <content>
 <p>
 那都是浏览器广告啊，亲。
