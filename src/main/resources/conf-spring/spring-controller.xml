@@ -11,6 +11,7 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 
 	<context:component-scan base-package="edu.pitt.IRWebProject.index.controller" />
 
+	<!-- <import resource="spring-biz-security.xml" /> -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
@@ -20,5 +21,6 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 			<value>.jsp</value>
 		</property>
 	</bean>
-	<mvc:default-servlet-handler />
+
+	<!-- <mvc:default-servlet-handler /> -->
 </beans>
