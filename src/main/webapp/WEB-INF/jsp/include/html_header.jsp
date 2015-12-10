@@ -9,7 +9,13 @@
 	require.config({
 		paths : {
 			"jquery" : "./resources/js/utils/jquery-1.11.3.min",
-			"json" : "./resources/js/utils/json2"
+			"json" : "./resources/js/utils/json2",
+			"bootstrap" : "./resources/bootstrap-3.3.6-dist/js/bootstrap.min.js"
+		},
+		shim : {
+			"bootstrap" : {
+				"deps" : [ 'jquery' ]
+			}
 		}
 	})
 </script>
