@@ -1,0 +1,19 @@
+#container {
+	padding: 40px 0 0;
+}
+
+a{
+	text-decoration: none;
+}
+
+.url{
+	color: green;
+}
+
+.sitename{
+	color: gray;
+}
+
+.footer{
+	margin-bottom: 50px;
+}
