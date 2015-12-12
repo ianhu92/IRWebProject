@@ -4,7 +4,12 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
 
-	<display-name>Archetype Created Web Application</display-name>
+	<display-name>IRWeb</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:conf-spring/spring-service.xml</param-value>
+	</context-param>
 
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
@@ -25,11 +30,6 @@
 		<servlet-name>DispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:conf-spring/spring-controller.xml</param-value>
-	</context-param>
 
 	<welcome-file-list>
 		<welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>

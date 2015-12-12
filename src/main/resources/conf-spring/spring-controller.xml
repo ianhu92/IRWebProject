@@ -10,6 +10,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<context:component-scan base-package="edu.pitt.IRWebProject.index.controller" />
+
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
@@ -20,5 +21,34 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 		</property>
 	</bean>
 
-	<!-- <mvc:default-servlet-handler /> -->
+	<!-- MessageConverters -->
+<!-- 	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/plain;charset=UTF-8</value>
+						</list>
+					</property>
+					<property name="writeAcceptCharset" value="false" />
+				</bean>
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+		<property name="webBindingInitializer">
+			<bean
+				class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+				<property name="conversionService">
+					<bean
+						class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" /> -->
 </beans>
