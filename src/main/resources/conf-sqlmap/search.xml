@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.pitt.IRWebProject.index.dao.SearchDAO">
+
+	<resultMap type="edu.pitt.IRWebProject.index.bo.Search" id="searchResultMap">
+		<id property="searchID" column="searchID" />
+		<result property="query" column="query" />
+		<result property="util" column="util" />
+		<result property="userID" column="userID" />
+	</resultMap>
+
+	<!-- get search by searchID -->
+	<select id="selectSearchByID" parameterType="Integer" resultMap="searchResultMap">
+		SELECT *
+		FROM search
+		WHERE searchID = #{searchID};
+	</select>
+
+	<select id="selectSearchByQueryLike" parameterType="string"
+		resultMap="searchResultMap">
+		SELECT *
+		FROM search
+		WHERE query LIKE '${query}%';
+	</select>
+</mapper>  
