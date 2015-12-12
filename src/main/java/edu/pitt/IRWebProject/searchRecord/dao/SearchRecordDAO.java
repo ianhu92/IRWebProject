@@ -9,9 +9,8 @@ import edu.pitt.IRWebProject.searchRecord.bo.SearchRecord;
 
 @Repository
 public interface SearchRecordDAO {
-	public SearchRecord selectSearchByID(int searchID);
 
-	public SearchRecord insertSearch(SearchRecord search);
+	public List<SearchRecord> selectSearchRecordByQueryLike(@Param("query") String query);
 
-	public List<SearchRecord> selectSearchByQueryLike(@Param("query") String query);
+	public int insertSearchRecord(SearchRecord searchRecord);
 }

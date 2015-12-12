@@ -5,8 +5,20 @@ import java.util.Date;
 public class SearchRecord {
 	private int searchID;
 	private String query;
-	private Date date;
-	private int userID;
+	private Date datetime;
+
+	private int userID = -1;
+
+	public SearchRecord(String query, Date datetime) {
+		this.setQuery(query);
+		this.setDatetime(datetime);
+	}
+
+	public SearchRecord(String query, Date datetime, int userID) {
+		this.setQuery(query);
+		this.setDatetime(datetime);
+		this.setUserID(userID);
+	}
 
 	public int getSearchID() {
 		return searchID;
@@ -24,12 +36,12 @@ public class SearchRecord {
 		this.query = query;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getDatetime() {
+		return datetime;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDatetime(Date datetime) {
+		this.datetime = datetime;
 	}
 
 	public int getUserID() {

@@ -2,6 +2,7 @@ package edu.pitt.IRWebProject.main.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.pitt.IRWebProject.searchRecord.bo.SearchRecord;
-import edu.pitt.IRWebProject.searchRecord.services.SearchRecordServices;
+import edu.pitt.IRWebProject.searchRecord.service.SearchRecordServices;
 
 @Controller
 @RequestMapping("/")
@@ -24,7 +25,7 @@ public class MainController {
 	String message = "Welcome to Spring MVC!";
 
 	@Autowired
-	private SearchRecordServices searchServices;
+	private SearchRecordServices searchRecordServices;
 
 	/**
 	 * map index.html
@@ -45,8 +46,13 @@ public class MainController {
 	@RequestMapping("search.html")
 	public ModelAndView showResult(@RequestParam(value = "query", required = true) String query)
 			throws UnsupportedEncodingException {
-		ModelAndView mv = new ModelAndView("search");
 		query = URLDecoder.decode(query, "UTF-8");
+
+		// insert search record
+		Date date = new Date();
+		int result = searchRecordServices.insertSearchRecord(new SearchRecord(query, date));
+
+		ModelAndView mv = new ModelAndView("search");
 		mv.addObject("query", query);
 		return mv;
 	}
@@ -76,7 +82,7 @@ public class MainController {
 	@ResponseBody
 	public String getSearchTip(HttpServletResponse response,
 			@RequestParam(value = "query", required = true) String query) {
-		List<SearchRecord> list = searchServices.selectSearchByQueryLike(query);
+		List<SearchRecord> list = searchRecordServices.selectSearchByQueryLike(query);
 		JSONArray result = new JSONArray();
 		if (result != null) {
 			for (SearchRecord search : list) {
