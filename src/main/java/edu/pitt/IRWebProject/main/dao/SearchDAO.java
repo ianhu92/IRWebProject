@@ -1,11 +1,11 @@
-package edu.pitt.IRWebProject.index.dao;
+package edu.pitt.IRWebProject.main.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import edu.pitt.IRWebProject.index.bo.Search;
+import edu.pitt.IRWebProject.main.bo.Search;
 
 @Repository
 public interface SearchDAO {

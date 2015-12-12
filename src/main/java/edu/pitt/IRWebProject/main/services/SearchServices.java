@@ -1,12 +1,12 @@
-package edu.pitt.IRWebProject.index.services;
+package edu.pitt.IRWebProject.main.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.pitt.IRWebProject.index.bo.Search;
-import edu.pitt.IRWebProject.index.dao.SearchDAO;
+import edu.pitt.IRWebProject.main.bo.Search;
+import edu.pitt.IRWebProject.main.dao.SearchDAO;
 
 @Service
 public class SearchServices {

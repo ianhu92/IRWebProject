@@ -1,4 +1,4 @@
-package edu.pitt.IRWebProject.index.bo;
+package edu.pitt.IRWebProject.main.bo;
 
 import java.util.Date;
 
