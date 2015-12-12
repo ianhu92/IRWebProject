@@ -33,6 +33,15 @@ public class MainController {
 	}
 
 	/**
+	 * map ResultPage.html
+	 * @return
+	 */
+	@RequestMapping("ResultPage.html")
+	public String showResult(){
+		return "ResultPage";
+	}
+	
+	/**
 	 * map the tested hello world page
 	 * 
 	 * @param name
