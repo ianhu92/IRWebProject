@@ -1,8 +1,8 @@
-package edu.pitt.IRWebProject.main.bo;
+package edu.pitt.IRWebProject.searchRecord.bo;
 
 import java.util.Date;
 
-public class Search {
+public class SearchRecord {
 	private int searchID;
 	private String query;
 	private Date date;

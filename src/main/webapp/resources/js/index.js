@@ -10,13 +10,14 @@ require([ "jquery", "json", "template" ], function($, JSON, template) {
 				 */
 			    if ($(this).val()) {
 				    searchTip.sendRequest($(this).val());
+			    } else {
+				    $("#searchTip").hide();
 			    }
 		    });
 
 		    // close searchTip event
 		    $(document).on("click", ":not(#inputBox, #searchTip,.searchTipOption)", function(e) {
 			    $("#searchTip").hide();
-			    return false;
 		    }).on("click", "#inputBox, #searchTip,.searchTipOption", function(e) {
 			    return false;
 		    });
@@ -26,6 +27,14 @@ require([ "jquery", "json", "template" ], function($, JSON, template) {
 			    $("#inputBox").val($(this).text());
 			    $("#searchTip").hide();
 			    $("#searchButton").click();
+		    })
+
+		    // search button event
+		    $("#searchButton").on("click", function(e) {
+			    var query = $("#inputBox").val();
+
+			    var url = "./search.html?query=" + encodeURI(query);
+			    location.href = url;
 		    })
 	    },
 	    sendRequest : function(text) {

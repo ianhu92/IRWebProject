@@ -3,10 +3,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Result Page</title>
+<title>${query} - SearchAnswer</title>
 <jsp:include page="/WEB-INF/jsp/include/html_header.jsp"></jsp:include>
 
-<link href="./resources/css/ResultPage.css" type="text/css" rel="stylesheet" />
+<link href="./resources/css/search.css" type="text/css" rel="stylesheet" />
 
 
 </head>
@@ -93,6 +93,6 @@
 		</div>
 
 	</div>
-	<script src="./resources/js/ResultPage.js"></script>
+	<script src="./resources/js/search.js"></script>
 </body>
 </html>
