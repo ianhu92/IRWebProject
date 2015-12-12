@@ -1,16 +1,31 @@
-require([ "jquery", "json" ], function($, JSON) {
+require([ "jquery", "json", "template" ], function($, JSON, template) {
 
 	var searchTip = {
 	    bindEvent : function() {
-		    // show dropdownTip event
-		    $("#inputBox").on("keypress", function(e) {
-			    var text = $(this).val() + String.fromCharCode(e.keyCode || e.charCode);
-			    searchTip.sendRequest(text);
+		    // show searchTip event
+		    $("#inputBox").on("keyup", function(e) {
+			    /*
+				 * var text = $(this).val() + String.fromCharCode(e.keyCode ||
+				 * e.charCode);
+				 */
+			    if ($(this).val()) {
+				    searchTip.sendRequest($(this).val());
+			    }
 		    });
 
-		    // close dropdownTip event
-		    $(window).on("click", ":not(#inputBox, #dropdownTip)", function() {
-			    $("#dropdownTip").hide();
+		    // close searchTip event
+		    $(document).on("click", ":not(#inputBox, #searchTip,.searchTipOption)", function(e) {
+			    $("#searchTip").hide();
+			    return false;
+		    }).on("click", "#inputBox, #searchTip,.searchTipOption", function(e) {
+			    return false;
+		    });
+
+		    // searchTip Option event
+		    $("#searchTip").on("click", ".searchTipOption", function(e) {
+			    $("#inputBox").val($(this).text());
+			    $("#searchTip").hide();
+			    $("#searchButton").click();
 		    })
 	    },
 	    sendRequest : function(text) {
@@ -21,11 +36,10 @@ require([ "jquery", "json" ], function($, JSON) {
 			        query : text
 		        },
 		        success : function(data) {
-			        try {
-				        data = JSON.parse(data);
-				        console.log(data);
-			        } catch (e) {
-				        console.error("wrong data format.")
+			        console.log(data);
+			        var html = template('searchTemplate', data);
+			        if (html) {
+				        $("#searchTip").html(html).show();
 			        }
 		        }
 		    })

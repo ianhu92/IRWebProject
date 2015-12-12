@@ -10,7 +10,8 @@
 		paths : {
 			"jquery" : "./resources/js/utils/jquery-1.11.3.min",
 			"json" : "./resources/js/utils/json2",
-			"bootstrap" : "./resources/bootstrap-3.3.6-dist/js/bootstrap.min.js"
+			"bootstrap" : "./resources/bootstrap-3.3.6-dist/js/bootstrap.min",
+			"template":"./resources/js/utils/template"
 		},
 		shim : {
 			"bootstrap" : {

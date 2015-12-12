@@ -2,6 +2,8 @@ package edu.pitt.IRWebProject.index.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +36,14 @@ public class MainController {
 
 	/**
 	 * map ResultPage.html
+	 * 
 	 * @return
 	 */
 	@RequestMapping("ResultPage.html")
-	public String showResult(){
+	public String showResult() {
 		return "ResultPage";
 	}
-	
+
 	/**
 	 * map the tested hello world page
 	 * 
@@ -64,7 +67,8 @@ public class MainController {
 	 */
 	@RequestMapping("searchTip.json")
 	@ResponseBody
-	public String getSearchTip(@RequestParam(value = "query", required = true) String query) {
+	public String getSearchTip(HttpServletResponse response,
+			@RequestParam(value = "query", required = true) String query) {
 		List<Search> list = searchServices.selectSearchByQueryLike(query);
 		JSONArray result = new JSONArray();
 		if (result != null) {
@@ -75,7 +79,7 @@ public class MainController {
 			}
 		}
 		JSONObject jo = new JSONObject();
-		jo.put("list", result);
+		jo.put("list", list);
 		return jo.toString();
 	}
 }

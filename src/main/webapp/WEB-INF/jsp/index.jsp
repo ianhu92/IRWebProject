@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +32,7 @@
 		<div class="row">
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 			<div class="col-xs-10 col-sm-8 col-md-6 dropdown">
-				<ul id="dropdownTip" class="dropdown-menu">
+				<ul id="searchTip" class="dropdown-menu">
 					<li><a href="#">HTML</a></li>
 					<li><a href="#">CSS</a></li>
 					<li><a href="#">JavaScript</a></li>
@@ -40,6 +41,7 @@
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 		</div>
 	</div>
+	<%@ include file="/resources/template/searchTip.tpl" %>
 	<script src="./resources/js/index.js"></script>
 </body>
 </html>

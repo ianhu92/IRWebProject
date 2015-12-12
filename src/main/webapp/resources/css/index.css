@@ -3,7 +3,7 @@ body {
 }
 
 #container {
-	padding: 120px 0 0;
+	padding: 120px 0;
 }
 
 #inputBox {
@@ -16,8 +16,8 @@ body {
 	left: calc(100% - 86px);
 }
 
-#dropdownTip {
-	display: block;
+#searchTip {
+	display: none;
 	position: relative;
 	margin-top: 0;
 	width: calc(100% - 71px);
