@@ -9,7 +9,7 @@
 		<result property="userID" column="userID" />
 	</resultMap>
 
-	<select id="selectSearchByQueryLike" parameterType="java.lang.String" resultMap="searchRecordResultMap">
+	<select id="selectSearchRecordByQueryLike" parameterType="java.lang.String" resultMap="searchRecordResultMap">
 		SELECT
 		query, count(*)
 		FROM searchrecord

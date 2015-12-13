@@ -6,14 +6,33 @@ public class SearchRecord {
 	private int searchID;
 	private String query;
 	private Date datetime;
-
 	private int userID = -1;
 
+	/**
+	 * define default constructor for mybatis
+	 */
+	public SearchRecord() {
+
+	}
+
+	/**
+	 * constructor for only query and datetime
+	 * 
+	 * @param query
+	 * @param datetime
+	 */
 	public SearchRecord(String query, Date datetime) {
 		this.setQuery(query);
 		this.setDatetime(datetime);
 	}
 
+	/**
+	 * constructor for query, datatime and userID
+	 * 
+	 * @param query
+	 * @param datetime
+	 * @param userID
+	 */
 	public SearchRecord(String query, Date datetime, int userID) {
 		this.setQuery(query);
 		this.setDatetime(datetime);
