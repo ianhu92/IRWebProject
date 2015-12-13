@@ -17,7 +17,7 @@
 		<div class="row">
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 			<div class="col-xs-10 col-sm-8 col-md-6">
-				<h1 class="text-primary text-center">SearchAnswer</h1>
+				<h1 class="text-primary text-center">Zhihu overflow</h1>
 			</div>
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 		</div>

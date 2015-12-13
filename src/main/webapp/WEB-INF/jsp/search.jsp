@@ -12,25 +12,18 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/include/result_header.jsp"></jsp:include>
-	<div id="container" class=".container-fluid">
+	<div class=".container-fluid" style="margin-top: 60px">
 		<div class="row">
-
 			<%
 				for (int i = 0; i < 10; i++) {
 			%>
 			<div class="col-md-8 col-md-offset-2">
 				<div class="col-md-12 title">
 					<a href="Input quetion URL here">
-						<h3 class="text-primary">
-							Question
-							<%=i%></h3>
+						<h4>Do you have to see the original Star Wars movies before seeing the new one? <%=i%></h4>
 					</a>
 				</div>
-				<div class="col-md-12 source">
-					<span> <small class="text-info url limitURL">www.stackoverflow.com</small>
-					</span> <span> <small class="sitename">Stack Overflow</small>
-					</span>
-				</div>
+				<div class="col-md-12 vote">Vote:</div>
 				<div class="col-md-12 answer">
 					<p class="limitAnswer">Invited. Unfortunately, I am not Li, so I don't have his perspective
 						and a strategic height. Just from I personal level to on about: Baidu of search technology
@@ -60,7 +53,12 @@
 						need as soon as possible station in hao123 such of main to do some things, and on Baidu main
 						site, actually without consider too more, has formed habits of user short-term within is
 						unlikely to may change habits, but Web site navigation if lost has, so this field war in I
-						seems, on didn't of playing has. These personal views, laughed at.</p>
+						seems, on didn't of playing has. These personal views, laughed at.
+					</p>
+				</div>
+				
+				<div class="col-md-12 source">
+					<span class="sitename">from Stack Overflow</span>
 				</div>
 			</div>
 

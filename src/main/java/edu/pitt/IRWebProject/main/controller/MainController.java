@@ -38,7 +38,7 @@ public class MainController {
 	}
 
 	/**
-	 * map ResultPage.html
+	 * map search.html
 	 * 
 	 * @return
 	 * @throws UnsupportedEncodingException
