@@ -44,8 +44,12 @@ public class MainController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping("search.html")
-	public ModelAndView showResult(@RequestParam(value = "query", required = true) String query)
+	public ModelAndView showResult(@RequestParam(value = "query", required = false) String query)
 			throws UnsupportedEncodingException {
+		if(query==null || "".equals(query)){
+			return new ModelAndView("redirect:./index.html");
+		}
+		
 		query = URLDecoder.decode(query, "UTF-8");
 
 		// insert search record
