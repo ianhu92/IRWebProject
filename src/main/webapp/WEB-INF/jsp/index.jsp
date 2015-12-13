@@ -9,7 +9,7 @@
 <link href="./resources/css/index.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/include/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/include/index_header.jsp"></jsp:include>
 
 	<div id="container" class=".container-fluid">
 		<%-- <jsp:include page="/WEB-INF/jsp/include/header.jsp"></jsp:include> --%>

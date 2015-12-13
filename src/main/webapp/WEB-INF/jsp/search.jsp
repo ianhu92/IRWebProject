@@ -11,7 +11,7 @@
 
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/include/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/include/result_header.jsp"></jsp:include>
 	<div id="container" class=".container-fluid">
 		<div class="row">
 
