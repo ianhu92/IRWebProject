@@ -1,3 +1,6 @@
+CREATE USER 'IRWeb'@'localhost' IDENTIFIED BY 'IRWeb';
+GRANT ALL PRIVILEGES ON * . * TO 'IRWeb'@'localhost';
+
 CREATE DATABASE `irweb`;
 
 CREATE TABLE `irweb`.`searchrecord` (
