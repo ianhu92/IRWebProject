@@ -121,7 +121,7 @@ public class LuceneController {
     }
 
     private List<Map.Entry<Integer, Double>> sortDocScore(ScoreDoc[] hits) throws IOException {
-        TreeMap<Integer, Double> treeMap = new TreeMap<>();
+        TreeMap<Integer, Double> treeMap = new TreeMap<Integer,Double>();
 
         for (ScoreDoc hit : hits) {
             Document d = searcher.doc(hit.doc);

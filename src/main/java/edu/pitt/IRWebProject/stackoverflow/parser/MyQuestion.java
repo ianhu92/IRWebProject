@@ -9,7 +9,7 @@ public class MyQuestion {
     String title;
     String content;
     int totalvotes;
-    ArrayList<MyAnswer> answers = new ArrayList<>();
+    ArrayList<MyAnswer> answers = new ArrayList<MyAnswer>();
 
     public int getTotalvotes() {
         return totalvotes;

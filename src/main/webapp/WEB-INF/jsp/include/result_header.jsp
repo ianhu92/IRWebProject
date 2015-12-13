@@ -7,10 +7,10 @@
 		<div class="col-sm-6 col-md-6">
 			<form action="./search.html" class="navbar-form" role="search">
 				<div class="input-group col-sm-12 col-md-12">
-					<input type="text" class="form-control" placeholder="Search" name="query"
+					<input id="" type="text" class="form-control" placeholder="Search" name="query"
 						value="${query == null ? '' : query}"/>
 					<div class="input-group-btn">
-						<button class="btn btn-default" type="submit">
+						<button id="searchButton_header" class="btn btn-default">
 							<i class="glyphicon glyphicon-search"></i>
 						</button>
 					</div>

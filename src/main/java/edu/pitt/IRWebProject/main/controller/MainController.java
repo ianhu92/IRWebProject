@@ -46,15 +46,20 @@ public class MainController {
 	@RequestMapping("search.html")
 	public ModelAndView showResult(@RequestParam(value = "query", required = false) String query)
 			throws UnsupportedEncodingException {
-		if(query==null || "".equals(query)){
+		if (query == null || "".equals(query)) {
 			return new ModelAndView("redirect:./index.html");
 		}
-		
+
 		query = URLDecoder.decode(query, "UTF-8");
 
 		// insert search record
 		Date date = new Date();
 		int result = searchRecordServices.insertSearchRecord(new SearchRecord(query, date));
+		if (result != 1) {
+			// TODO: do something if insert failed
+		}
+
+		// do search
 
 		ModelAndView mv = new ModelAndView("search");
 		mv.addObject("query", query);

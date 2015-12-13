@@ -63,7 +63,7 @@ public class MyParser {
 
     public ArrayList<MyAnswer> getAnswers(Document doc, MyQuestion ques) {
         Element answerPage = doc.getElementById("answers");
-        ArrayList<MyAnswer> answersList = new ArrayList<>();
+        ArrayList<MyAnswer> answersList = new ArrayList<MyAnswer>();
         // Get accepted answer.
 //        Element acceptedAnswer = answerPage.select("div.answer.accepted-answer").first();
 //        String vote_count = acceptedAnswer.getElementsByClass("vote-count-post").first().text();
