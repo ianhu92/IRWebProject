@@ -4,7 +4,7 @@ define(function(require, exports) {
 
 	searchTip.setSelector({
 	    inputBox : "#inputBox_header",
-	    searchTip : "#searchTip",
+	    searchTip : "#searchTip_header",
 	    searchOption : ".searchOption",
 	    searchButton : "#searchButton_header"
 	});

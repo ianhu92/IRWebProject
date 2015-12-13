@@ -3,18 +3,26 @@
 }
 
 #inputBox {
-	width: calc(100% - 71px);
-	display: inline-block;
+	/* 	width: calc(100% - 71px);
+	display: inline-block; */
+	
 }
 
 #searchButton {
-	position: absolute;
-	left: calc(100% - 86px);
+	/* 	position: absolute;
+	left: calc(100% - 86px); */
+	
 }
 
 #searchTip {
 	display: none;
 	position: relative;
-	margin-top: 0;
-	width: calc(100% - 71px);
+	margin-top: -1px;
+	width: calc(100% - 91px);
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.dropdown-menu li .searchTipOption {
+	padding-left: 16px;
 }

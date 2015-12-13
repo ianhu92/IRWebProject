@@ -94,6 +94,10 @@
 		</div>
 
 	</div>
+	
+	<!-- researchTip template -->
+	<%@ include file="/resources/template/searchTip.tpl"%>
+	
 	<script>
 		require([ "./resources/js/search.js" ]);
 	</script>

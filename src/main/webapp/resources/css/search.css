@@ -2,18 +2,38 @@
 	padding: 40px 0 0;
 }
 
-a{
+a {
 	text-decoration: none;
 }
 
-.url{
+.url {
 	color: green;
 }
 
-.sitename{
+.sitename {
 	color: gray;
 }
 
-.footer{
+.footer {
 	margin-bottom: 50px;
+}
+
+#inputBox_header {
+	padding-left: 16px;
+}
+
+#searchTipBox {
+	top: 31px;
+}
+
+#searchTip_header {
+	background-color: white;
+	width: 100%;
+	display: none;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.dropdown-menu li .searchTipOption {
+	padding-left: 16px;
 }

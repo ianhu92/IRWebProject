@@ -23,15 +23,17 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
-			<div class="col-xs-10 col-sm-8 col-md-6">
-				<input id="inputBox" type="text" class="form-control input-lg" id="usr" />
-				<button id="searchButton" type="button" class="btn btn-primary btn-lg">Search</button>
+			<div class="col-xs-10 col-sm-8 col-md-6 input-group">
+				<input id="inputBox" type="text" class="form-control input-lg" />
+				<div class="input-group-btn">
+					<button id="searchButton" type="button" class="btn btn-primary btn-lg">Search</button>
+				</div>
 			</div>
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 		</div>
 		<div class="row">
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
-			<div class="col-xs-10 col-sm-8 col-md-6 dropdown">
+			<div class="col-xs-10 col-sm-8 col-md-6 input-group dropdown">
 				<ul id="searchTip" class="dropdown-menu">
 					<li><a href="#">HTML</a></li>
 					<li><a href="#">CSS</a></li>
@@ -41,6 +43,8 @@
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 		</div>
 	</div>
+	
+	<!-- researchTip template -->
 	<%@ include file="/resources/template/searchTip.tpl"%>
 	<script>
 		require([ './resources/js/index.js' ]);
