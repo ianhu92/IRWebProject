@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>SearchAnswer</title>
-<jsp:include page="/WEB-INF/jsp/include/html_header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/include/html_head.jsp"></jsp:include>
 
 <link href="./resources/css/index.css" type="text/css" rel="stylesheet" />
 </head>
@@ -41,7 +41,9 @@
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 		</div>
 	</div>
-	<%@ include file="/resources/template/searchTip.tpl" %>
-	<script src="./resources/js/index.js"></script>
+	<%@ include file="/resources/template/searchTip.tpl"%>
+	<script>
+		require([ './resources/js/index.js' ]);
+	</script>
 </body>
 </html>

@@ -1,10 +1,15 @@
-require([ "jquery" ], function($, JSON, template) {
-	
-	
-	
-	
-	
-	
+define(function(require, exports) {
+	var $ = require("jquery");
+	var searchTip = require("searchTip");
+
+	searchTip.setSelector({
+	    inputBox : "#inputBox_header",
+	    searchTip : "#searchTip",
+	    searchOption : ".searchOption",
+	    searchButton : "#searchButton_header"
+	});
+	searchTip.bindEvent();
+
 	/**
 	 * deprecated!!!! Need to do this in back end.
 	 */

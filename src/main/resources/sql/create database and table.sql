@@ -16,5 +16,3 @@ CREATE TABLE `irweb`.`user` (
   PRIMARY KEY (`userID`),
   UNIQUE KEY `userID_UNIQUE` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-

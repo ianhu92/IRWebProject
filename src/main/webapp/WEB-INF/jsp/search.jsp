@@ -3,8 +3,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>${query} - SearchAnswer</title>
-<jsp:include page="/WEB-INF/jsp/include/html_header.jsp"></jsp:include>
+<title>${query}- SearchAnswer</title>
+<jsp:include page="/WEB-INF/jsp/include/html_head.jsp"></jsp:include>
 
 <link href="./resources/css/search.css" type="text/css" rel="stylesheet" />
 
@@ -22,7 +22,8 @@
 				<div class="col-md-12 title">
 					<a href="Input quetion URL here">
 						<h3 class="text-primary">
-							Question <%=i%></h3>
+							Question
+							<%=i%></h3>
 					</a>
 				</div>
 				<div class="col-md-12 source">
@@ -93,6 +94,8 @@
 		</div>
 
 	</div>
-	<script src="./resources/js/search.js"></script>
+	<script>
+		require([ "./resources/js/search.js" ]);
+	</script>
 </body>
 </html>
