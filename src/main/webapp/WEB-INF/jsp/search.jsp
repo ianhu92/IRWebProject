@@ -20,13 +20,13 @@
 			<c:forEach var="result" items="${resultList}">
 				<div class="col-md-8 col-md-offset-2 question">
 					<div class="col-md-12 title">
-						<a href="${result.url}" class="text-capitalize" target="_blank">${result.title}</a>
+						<a href="${result.url}" target="_blank">${result.title}</a>
 					</div>
 					<div class="col-md-12 vote" style="margin-top: 20px">
 						<span>Votes:</span><span>${result.votes}</span>
 					</div>
 					<div class="col-md-12 answer" style="margin-top: 5px">
-						<p class="limitAnswer text-capitalize">
+						<p class="limitAnswer">
 							<c:out value="${result.answer}" escapeXml="false" />
 						</p>
 					</div>

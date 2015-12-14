@@ -35,13 +35,15 @@ a {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-.title a::first-letter {
-   	text-transform:uppercase;
+.title a{
+	display:inline-block;
 }
 
-.answer p::first-letter{	
-	text-transform:uppercase;
+.title a::first-letter {
+    text-transform: uppercase;
 }
+
+
 
 .url {
 	color: green;
@@ -52,6 +54,10 @@ a {
     font-size: 15px;
     line-height: 1.4;
     color: #333;
+}
+
+.answer p::first-letter {
+    text-transform: uppercase;
 }
 
 .sitename {
