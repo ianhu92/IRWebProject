@@ -1,4 +1,4 @@
-package edu.pitt.IRWebProject.lucene;
+package edu.pitt.IRWebProject.lucene.bo;
 
 /**
  * Created by zhaojun on 12/13/15.

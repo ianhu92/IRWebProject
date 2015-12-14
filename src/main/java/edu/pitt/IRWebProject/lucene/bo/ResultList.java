@@ -1,4 +1,4 @@
-package edu.pitt.IRWebProject.lucene;
+package edu.pitt.IRWebProject.lucene.bo;
 
 import java.util.List;
 

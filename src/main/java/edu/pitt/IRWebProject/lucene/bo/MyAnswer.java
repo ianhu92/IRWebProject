@@ -1,4 +1,4 @@
-package edu.pitt.IRWebProject.stackoverflow.parser;
+package edu.pitt.IRWebProject.lucene.bo;
 
 /**
  * Created by zhaojun on 12/6/15.

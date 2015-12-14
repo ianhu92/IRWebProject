@@ -52,17 +52,19 @@ define(function(require, exports, module) {
 	    },
 	    sendRequest : function(text) {
 		    $.ajax({
-		        url : "/searchTip.json",
+		        url : "/searchRecord/searchTip.json",
 		        dataType : "json",
 		        data : {
 			        query : text
 		        },
 		        success : function(data) {
-		        	// data type must be json
-			        
+			        // data type must be json
+
 			        var html = template('searchTemplate', data);
 			        if (html) {
 				        $(searchTip.selector.searchTip).html(html).show();
+			        } else {
+				        $(searchTip.selector.searchTip).hide();
 			        }
 		        }
 		    })

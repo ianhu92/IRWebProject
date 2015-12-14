@@ -1,11 +1,14 @@
-package edu.pitt.IRWebProject.lucene;
+package edu.pitt.IRWebProject.lucene.service;
+
+import edu.pitt.IRWebProject.lucene.bo.Result;
+import edu.pitt.IRWebProject.lucene.bo.ResultList;
 
 /**
  * Created by zhaojun on 12/10/15.
  */
 
-import edu.pitt.IRWebProject.stackoverflow.parser.MyAnswer;
-import edu.pitt.IRWebProject.stackoverflow.parser.MyQuestion;
+import edu.pitt.IRWebProject.lucene.bo.MyAnswer;
+import edu.pitt.IRWebProject.lucene.bo.MyQuestion;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
@@ -46,14 +49,15 @@ public class LuceneService {
 
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws Exception {
 		LuceneService lucene = new LuceneService();
 
 		// lucene.writetoLucene("StackOverFlow");
 		// lucene.writetoLucene("zhihu");
 
-		ResultList list = lucene.searchQuery("How to create google", 0);
-
+		//ResultList list = lucene.searchQuery("How to create google", 0);
+		
 	}
 
 	private void initDirectory() throws IOException {
@@ -87,31 +91,34 @@ public class LuceneService {
 		int startNum = 10 * (page - 1);
 		int endNum = startNum + 10;
 
-		return new ResultList(result.size(), result.size() / 10, page, result.subList(startNum, endNum));
+		return new ResultList(result.size(), result.size() / 10, page,
+				result.subList(startNum, endNum));
 	}
 
-	@SuppressWarnings("unused")
-	private void writetoLucene(String type) throws IOException {
-		initDirectory();
-
-		TrecWebReader webReader;
-
-		if (type.equals("zhihu")) {
-			writer = new IndexWriter(dir1, config1);
-			webReader = new TrecWebReader(type);
-		} else {
-			writer = new IndexWriter(dir2, config2);
-			webReader = new TrecWebReader(type);
-		}
-
-		Map<String, MyQuestion> map;
-
-		while ((map = webReader.nextQuestion()) != null) {
-			addDoc(writer, map);
-		}
-
-		writer.close();
-	}
+	/*
+	 * @SuppressWarnings("unused")
+	 * private void writetoLucene(String type) throws IOException {
+	 * initDirectory();
+	 * 
+	 * TrecWebReader webReader;
+	 * 
+	 * if (type.equals("zhihu")) {
+	 * writer = new IndexWriter(dir1, config1);
+	 * webReader = new TrecWebReader(type);
+	 * } else {
+	 * writer = new IndexWriter(dir2, config2);
+	 * webReader = new TrecWebReader(type);
+	 * }
+	 * 
+	 * Map<String, MyQuestion> map;
+	 * 
+	 * while ((map = webReader.nextQuestion()) != null) {
+	 * addDoc(writer, map);
+	 * }
+	 * 
+	 * writer.close();
+	 * }
+	 */
 
 	private ScoreDoc[] searchDoc(String query) throws Exception {
 		// the "title" arg specifies the default field to use
@@ -129,8 +136,10 @@ public class LuceneService {
 		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
 		searcher.search(q, collector);
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
-		/*System.out.println("topdocid" + hits[0].doc);
-		System.out.println("hitsLength" + hits.length);*/
+		/*
+		 * System.out.println("topdocid" + hits[0].doc);
+		 * System.out.println("hitsLength" + hits.length);
+		 */
 		return hits;
 	}
 
@@ -142,7 +151,7 @@ public class LuceneService {
 		for (Map.Entry<Integer, Double> entry : list) {
 			Result result = new Result();
 			Document d = searcher.doc(entry.getKey());
-			Double score = entry.getValue();
+			//Double score = entry.getValue();
 			String source = getSource(d.get("docno"));
 
 			// System.out.println("Score:" + score);
@@ -217,12 +226,14 @@ public class LuceneService {
 		return list;
 	}
 
+	@SuppressWarnings("unused")
 	private void closeReader() throws IOException {
 		for (IndexReader reader : readers) {
 			reader.close();
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void addDoc(IndexWriter writer, Map<String, MyQuestion> map) throws IOException {
 		for (Map.Entry<String, MyQuestion> entry : map.entrySet()) {
 			String docno = entry.getKey();
