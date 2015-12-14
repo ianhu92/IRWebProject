@@ -37,9 +37,6 @@ public class LuceneService {
         //    The same analyzer should be used for indexing and searching
         analyzer = new StandardAnalyzer();
 
-        dir1 = FSDirectory.open(Paths.get("./src/main/resources/data/ZhihuIndex/"));
-        dir2 = FSDirectory.open(Paths.get("./src/main/resources/data/StackOverFlowIndex/"));
-
         config1 = new IndexWriterConfig(analyzer);
         config2 = new IndexWriterConfig(analyzer);
 
@@ -55,7 +52,19 @@ public class LuceneService {
         System.out.println(json);
     }
 
+    private void initDirectory() throws IOException {
+        if (dir1 == null) {
+            dir1 = FSDirectory.open(Paths.get("./src/main/resources/data/ZhihuIndex/"));
+        }
+        if (dir2 == null) {
+            dir2 = FSDirectory.open(Paths.get("./src/main/resources/data/StackOverFlowIndex/"));
+        }
+
+    }
+
     private void initReader() throws IOException {
+        initDirectory();
+
         readers = new IndexReader[2];
         readers[0] = DirectoryReader.open(dir1);
         readers[1] = DirectoryReader.open(dir2);
@@ -75,6 +84,8 @@ public class LuceneService {
 
     @SuppressWarnings("unused")
     private void writetoLucene(String type) throws IOException {
+        initDirectory();
+
         TrecWebReader webReader;
 
         if (type.equals("zhihu")) {
