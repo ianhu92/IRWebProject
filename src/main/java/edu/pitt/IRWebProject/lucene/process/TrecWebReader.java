@@ -17,12 +17,14 @@ public class TrecWebReader {
 	FileInputStream fis;
 	BufferedReader reader;
 	String line;
+//	String prefix = "";
 
 	public TrecWebReader(String type) throws IOException {
 		if (type.equals("zhihu")) {
 			fis = new FileInputStream("./src/main/resources/data/zhihutrecweb");
 		} else {
 			fis = new FileInputStream("./src/main/resources/data/StackOverFlowtrec");
+//			prefix = "SOF";
 		}
 
 		reader = new BufferedReader(new InputStreamReader(fis));
@@ -95,6 +97,8 @@ public class TrecWebReader {
 				totalvotes = 0;
 				docNo = getTagText(line);
 				ques = new MyQuestion();
+			} else if ("DOCURL".equals(lineType)) {
+				ques.setUrl(getTagText(line));
 			} else if ("title".equals(lineType)) {
 				ques.setTitle(getTagText(line).toLowerCase());
 			} else if ("content".equals(lineType)) {
@@ -105,11 +109,9 @@ public class TrecWebReader {
 				if (ques != null) {
 					ques.setTotalvotes(totalvotes);
 				}
+				map.put(docNo, ques);
+				return map;
 			}
-
-			map.put(docNo, ques);
-			return map;
-
 		}
 
 		return map;
