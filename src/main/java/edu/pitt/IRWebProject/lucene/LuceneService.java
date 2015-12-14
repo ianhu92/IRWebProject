@@ -52,7 +52,8 @@ public class LuceneService {
 		// lucene.writetoLucene("StackOverFlow");
 		// lucene.writetoLucene("zhihu");
 
-		List<Result> list = lucene.searchQuery("How to create google");
+		ResultList list = lucene.searchQuery("How to create google", 0);
+
 	}
 
 	private void initDirectory() throws IOException {
@@ -76,14 +77,17 @@ public class LuceneService {
 		searcher = new IndexSearcher(new MultiReader(readers));
 	}
 
-	public List<Result> searchQuery(String query) throws Exception {
+	public ResultList searchQuery(String query, int page) throws Exception {
+
 		ScoreDoc[] results = searchDoc(query);
 
 		ArrayList<Result> result = readSortedResults(results);
 
 		// closeReader();
+		int startNum = 10 * (page - 1);
+		int endNum = startNum + 10;
 
-		return result.subList(0, 10);
+		return new ResultList(result.size(), result.size() / 10, page, result.subList(startNum, endNum));
 	}
 
 	@SuppressWarnings("unused")
@@ -125,7 +129,8 @@ public class LuceneService {
 		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
 		searcher.search(q, collector);
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
-
+		System.out.println("topdocid" + hits[0].doc);
+		System.out.println("hitsLength" + hits.length);
 		return hits;
 	}
 
