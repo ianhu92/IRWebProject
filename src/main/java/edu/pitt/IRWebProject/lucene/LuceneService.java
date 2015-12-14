@@ -115,7 +115,7 @@ public class LuceneService {
 	private ScoreDoc[] searchDoc(String query) throws Exception {
 		// the "title" arg specifies the default field to use
 		// when no field is explicitly specified in the query.
-		if (readers == null) {
+		if (readers == null || readers.length == 0) {
             initReader();
         }
 
