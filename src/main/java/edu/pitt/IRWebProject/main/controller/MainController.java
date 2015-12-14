@@ -73,7 +73,11 @@ public class MainController {
 		}
 
 		// do search
+		Long start = System.currentTimeMillis();
 		List<Result> resultList = luceneService.searchQuery(query);
+		Long end = System.currentTimeMillis();
+		System.out.println(end - start);
+
 		for (Result result : resultList) {
 			String answer = result.getAnswer();
 			if (answer != null) {
@@ -97,8 +101,8 @@ public class MainController {
 		}
 
 		ModelAndView mv = new ModelAndView("search");
-		mv.addObject(query);
-		mv.addObject(resultList);
+		mv.addObject("query", query);
+		mv.addObject("resultList", resultList);
 		return mv;
 	}
 

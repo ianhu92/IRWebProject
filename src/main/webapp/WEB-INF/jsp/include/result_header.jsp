@@ -10,7 +10,7 @@
 			<div class="navbar-form" role="search">
 				<div class="input-group col-sm-12 col-md-12">
 					<input id="inputBox_header" type="text" class="form-control" placeholder="Ask your question"
-						value="${query == null ? '' : query}" />
+						value="${query}" />
 					<div id="searchTipBox" class="dropdown">
 						<ul id="searchTip_header" class="dropdown-menu">
 							<li>aaaa</li>

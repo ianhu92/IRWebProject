@@ -52,7 +52,7 @@ public class LuceneService {
 		// lucene.writetoLucene("StackOverFlow");
 		// lucene.writetoLucene("zhihu");
 
-		ArrayList<Result> list = lucene.searchQuery("How to create google");
+		List<Result> list = lucene.searchQuery("How to create google");
 	}
 
 	private void initDirectory() throws IOException {
@@ -76,14 +76,14 @@ public class LuceneService {
 		searcher = new IndexSearcher(new MultiReader(readers));
 	}
 
-	public ArrayList<Result> searchQuery(String query) throws Exception {
+	public List<Result> searchQuery(String query) throws Exception {
 		ScoreDoc[] results = searchDoc(query);
 
 		ArrayList<Result> result = readSortedResults(results);
 
-//		closeReader();
+		// closeReader();
 
-		return result;
+		return result.subList(0, 10);
 	}
 
 	@SuppressWarnings("unused")
@@ -113,14 +113,14 @@ public class LuceneService {
 		// the "title" arg specifies the default field to use
 		// when no field is explicitly specified in the query.
 		if (readers == null || readers.length == 0) {
-            initReader();
-        }
+			initReader();
+		}
 
 		String[] fields = new String[] { "title", "content", "answerContent" };
 		MultiFieldQueryParser multiFieldQueryParser = new MultiFieldQueryParser(fields, analyzer);
 		Query q = multiFieldQueryParser.parse(query);
 
-		int hitsPerPage = 10;
+		int hitsPerPage = 1000000;
 
 		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
 		searcher.search(q, collector);
@@ -134,7 +134,6 @@ public class LuceneService {
 
 		List<Map.Entry<Integer, Double>> list = sortDocScore(hits);
 
-
 		for (Map.Entry<Integer, Double> entry : list) {
 			Result result = new Result();
 			Document d = searcher.doc(entry.getKey());
@@ -142,13 +141,13 @@ public class LuceneService {
 			String source = getSource(d.get("docno"));
 
 			// System.out.println("Score:" + score);
-            result.setTitle(d.get("title"));
-            result.setUrl(d.get("url"));
-            result.setSource(source);
-            result.setVotes(d.get("votes"));
-            result.setAnswer(d.get("answerContent"));
+			result.setTitle(d.get("title"));
+			result.setUrl(d.get("url"));
+			result.setSource(source);
+			result.setVotes(d.get("votes"));
+			result.setAnswer(d.get("answerContent"));
 
-            resultList.add(result);
+			resultList.add(result);
 
 			// System.out.println("DOCNO:" + d.get("docno"));
 			// System.out.println("title:" + d.get("title"));
@@ -183,7 +182,8 @@ public class LuceneService {
 			treeMap.put(hit.doc, newScore);
 		}
 
-		List<Map.Entry<Integer, Double>> list = new ArrayList<Map.Entry<Integer, Double>>(treeMap.entrySet());
+		List<Map.Entry<Integer, Double>> list = new ArrayList<Map.Entry<Integer, Double>>(
+				treeMap.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>() {
 			@Override
 			public int compare(Map.Entry<Integer, Double> o1, Map.Entry<Integer, Double> o2) {
