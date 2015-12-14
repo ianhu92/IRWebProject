@@ -171,19 +171,31 @@ public class LuceneService {
 
 		for (ScoreDoc hit : hits) {
 			Document d = searcher.doc(hit.doc);
+
 			Double votes = Double.valueOf(d.get("votes"));
 			Double totalVotes = Double.valueOf(d.get("totalVotes"));
 			votes = votes < 0 ? 0 : votes;
 			totalVotes = totalVotes < 0 ? 0 : totalVotes;
 			int ansLength = d.get("answerContent").length();
+			String source = getSource(d.get("docno"));
 
 			// Calculate Final Score
 			// Double Origin = hit.score * (Double.valueOf(d.get("votes")) + 1);
 
-//			while (votes > 1000) {
-//				votes /= 10;
-//			}
-			Double newScore = hit.score + ((votes + 1.0) + ansLength) / (totalVotes - votes + 1);
+			// while (votes > 1000) {
+			// votes /= 10;
+			// }
+			// Double newScore = hit.score + ((votes + 1.0) + ansLength) / (totalVotes - votes + 1);
+
+			// ln function algorithm
+			Double newScore;
+			if (source.equals("zhihu")) {
+				newScore = (double) hit.score / topScore + Math.log1p(votes) / 10
+						+ Math.log1p(ansLength) / 10 + Math.log1p(totalVotes) / 100;
+			} else {
+				newScore = (double) hit.score / topScore + Math.log1p(votes) / 8
+						+ Math.log1p(ansLength) / 10 + Math.log1p(totalVotes) / 100;
+			}
 
 			treeMap.put(hit.doc, newScore);
 		}
