@@ -35,6 +35,14 @@ a {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+.title a::first-letter {
+   	text-transform:uppercase;
+}
+
+.answer p::first-letter{	
+	text-transform:uppercase;
+}
+
 .url {
 	color: green;
 }
