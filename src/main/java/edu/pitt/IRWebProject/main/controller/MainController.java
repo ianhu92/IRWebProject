@@ -6,34 +6,43 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.pitt.IRWebProject.lucene.LuceneService;
-import edu.pitt.IRWebProject.lucene.Result;
-import edu.pitt.IRWebProject.lucene.ResultList;
+import com.memetix.mst.language.Language;
+
+import edu.pitt.IRWebProject.lucene.service.LuceneService;
+import edu.pitt.IRWebProject.language.service.BingTranslatorService;
+import edu.pitt.IRWebProject.lucene.bo.Result;
+import edu.pitt.IRWebProject.lucene.bo.ResultList;
 import edu.pitt.IRWebProject.searchRecord.bo.SearchRecord;
 import edu.pitt.IRWebProject.searchRecord.service.SearchRecordServices;
 
+/**
+ * main controller for ".html" page requests
+ * 
+ * @author Ian
+ *
+ */
 @Controller
 @RequestMapping("/")
 public class MainController {
-	String message = "Welcome to Spring MVC!";
-
 	@Autowired
 	private SearchRecordServices searchRecordServices;
 
 	@Autowired
 	private LuceneService luceneService;
+
+	private BingTranslatorService bingTranslatorService;
+
+	@Autowired
+	public void initBingtranslatorService() {// initialize bingTranslatorService
+		this.bingTranslatorService = new BingTranslatorService("ENGLISH", "CHINESE_SIMPLIFIED");
+	}
 
 	/**
 	 * map index.html
@@ -41,8 +50,10 @@ public class MainController {
 	 * @return
 	 */
 	@RequestMapping("index.html")
-	public String showIndex() {
-		return "index";
+	public ModelAndView showIndex(
+			@RequestParam(value = "lan", required = false, defaultValue = "en") String lan) {
+		ModelAndView mv = new ModelAndView("index");
+		return mv;
 	}
 
 	/**
@@ -53,13 +64,16 @@ public class MainController {
 	 */
 	@RequestMapping("search.html")
 	public ModelAndView showResult(@RequestParam(value = "query", required = false) String query,
-			@RequestParam(value = "page", required = false, defaultValue = "1") int page)
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "lan", required = false, defaultValue = "en") String lan)
 					throws Exception {
 		if (query == null || "".equals(query)) {
 			return new ModelAndView("redirect:./index.html");
 		}
 		String queryEncode = query;
 		query = URLDecoder.decode(query, "UTF-8");
+		//Language queryLanguage = 
+		
 		String[] terms;
 		if (query.contains(" ")) {
 			terms = query.split(" ");
@@ -109,7 +123,6 @@ public class MainController {
 
 				// set bold text with query terms
 				for (String term : terms) {
-					// TODO: long way to full logic
 					Pattern pattern = Pattern
 							.compile("(^|[^a-zA-Z0-9>])" + term + "($|[^a-zA-Z0-9<])");
 					Matcher matcher = pattern.matcher(answer);
@@ -119,9 +132,7 @@ public class MainController {
 								.replaceFirst(substr.replaceFirst(term, "<b>" + term + "</b>"));
 						matcher = pattern.matcher(answer);
 					}
-					// answer.replaceAll(" " + term + " ", " <strong>" + term + "</strong> ");
 				}
-
 				result.setAnswer(answer);
 			}
 		}
@@ -136,27 +147,4 @@ public class MainController {
 		return mv;
 	}
 
-	/**
-	 * get search tip by input query
-	 * 
-	 * @param query
-	 * @return
-	 */
-	@RequestMapping("searchTip.json")
-	@ResponseBody
-	public String getSearchTip(HttpServletResponse response,
-			@RequestParam(value = "query", required = true) String query) {
-		List<SearchRecord> list = searchRecordServices.selectSearchByQueryLike(query);
-		JSONArray result = new JSONArray();
-		if (result != null) {
-			for (SearchRecord search : list) {
-				JSONObject jo = new JSONObject();
-				jo.put("query", search.getQuery());
-				result.put(jo);
-			}
-		}
-		JSONObject jo = new JSONObject();
-		jo.put("list", list);
-		return jo.toString();
-	}
 }
