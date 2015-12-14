@@ -13,6 +13,8 @@ import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -112,6 +114,10 @@ public class LuceneService {
     }
 
     private String readSortedResults(ScoreDoc[] hits) throws IOException {
+        JSONArray jsonArray = new JSONArray();
+
+
+
         StringBuilder sb = new StringBuilder();
 
         // 4. display results
@@ -119,23 +125,29 @@ public class LuceneService {
 
         List<Map.Entry<Integer, Double>> list = sortDocScore(hits);
 
-        sb.append("[");
+//        sb.append("[");
 
         for (Map.Entry<Integer, Double> entry : list) {
-
+            JSONObject jsonObject = new JSONObject();
             Document d = searcher.doc(entry.getKey());
             Double score = entry.getValue();
             String source = getSource(d.get("docno"));
 
 //            System.out.println("Score:" + score);
+            jsonObject.put("title", d.get("title"));
+            jsonObject.put("url", d.get("url"));
+            jsonObject.put("soucre", source);
+            jsonObject.put("answer", d.get("answerContent"));
+            jsonObject.put("votes", d.get("votes"));
 
-            sb.append("{");
-            sb.append("\"title\":\"" + d.get("title") + "\" , ");
-            sb.append("\"url\":\"" + d.get("url") + "\" , ");
-            sb.append("\"source\":\"" + source + "\" , ");
-            sb.append("\"answer\":\"" + d.get("answerContent") + "\" , ");
-            sb.append("\"votes\":\"" + d.get("votes") + "\" ");
-            sb.append("}, ");
+            jsonArray.put(jsonObject);
+//            sb.append("{");
+//            sb.append("\"title\":\"" + d.get("title") + "\" , ");
+//            sb.append("\"url\":\"" + d.get("url") + "\" , ");
+//            sb.append("\"source\":\"" + source + "\" , ");
+//            sb.append("\"answer\":\"" + d.get("answerContent") + "\" , ");
+//            sb.append("\"votes\":\"" + d.get("votes") + "\" ");
+//            sb.append("}, ");
 
 //            System.out.println("DOCNO:" + d.get("docno"));
 //            System.out.println("title:" + d.get("title"));
@@ -144,10 +156,10 @@ public class LuceneService {
 //            System.out.println("Answer:" + d.get("answerContent"));
         }
 
-        sb.setLength(sb.length() - 1);
-        sb.append("]");
+//        sb.setLength(sb.length() - 1);
+//        sb.append("]");
 
-        return sb.toString();
+        return jsonArray.toString();
     }
 
     private String getSource(String docno) {
