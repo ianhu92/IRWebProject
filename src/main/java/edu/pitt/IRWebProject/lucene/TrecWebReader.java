@@ -1,4 +1,4 @@
-package edu.pitt.IRWebProject.lucene.process;
+package edu.pitt.IRWebProject.lucene;
 
 import edu.pitt.IRWebProject.stackoverflow.parser.MyAnswer;
 import edu.pitt.IRWebProject.stackoverflow.parser.MyQuestion;

@@ -1,4 +1,4 @@
-package edu.pitt.IRWebProject.lucene.process;
+package edu.pitt.IRWebProject.lucene;
 
 /**
  * Created by zhaojun on 12/10/15.
