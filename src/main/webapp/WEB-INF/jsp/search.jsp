@@ -17,7 +17,7 @@
 			<%
 				for (int i = 0; i < 10; i++) {
 			%>
-			<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-8 col-md-offset-2 question">
 				<div class="col-md-12 title">
 					<a href="Input quetion URL here">
 						<h4>Do you have to see the original Star Wars movies before seeing the new one? <%=i%></h4>
@@ -58,7 +58,7 @@
 				</div>
 				
 				<div class="col-md-12 source">
-					<span class="sitename">from Stack Overflow</span>
+					<span class="sitename">From Stack Overflow</span>
 				</div>
 			</div>
 

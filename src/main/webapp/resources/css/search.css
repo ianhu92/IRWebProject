@@ -9,23 +9,36 @@
 
 a {
 	text-decoration: none;
-	color: #0077CC !important;
 }
 
 .question{
-	margin-bottom: 90px;
+	border-color: white;
+	border-style: solid;
+	border-top-color: #999;
+	border-top-width: thin;
 }
 
 .title h4{
 	color: #0077CC !important;
+	font-size: 19px;
+    letter-spacing: -0.5px;
+    line-height: 1.25;
+    font-weight: bold;
 }
 
 .url {
 	color: green;
 }
 
+.answer{
+    font-family: Georgia,Times,"Times New Roman",serif;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
 .sitename {
-	color: gray;
+	color: #999;
+    font-weight: 400;
 }
 
 .footer {
