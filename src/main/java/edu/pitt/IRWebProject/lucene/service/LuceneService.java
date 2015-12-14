@@ -9,7 +9,11 @@ import edu.pitt.IRWebProject.lucene.bo.ResultList;
 
 import edu.pitt.IRWebProject.lucene.bo.MyAnswer;
 import edu.pitt.IRWebProject.lucene.bo.MyQuestion;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
@@ -20,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -56,8 +61,8 @@ public class LuceneService {
 		// lucene.writetoLucene("StackOverFlow");
 		// lucene.writetoLucene("zhihu");
 
-		//ResultList list = lucene.searchQuery("How to create google", 0);
-		
+		// ResultList list = lucene.searchQuery("How to create google", 0);
+
 	}
 
 	private void initDirectory() throws IOException {
@@ -151,7 +156,7 @@ public class LuceneService {
 		for (Map.Entry<Integer, Double> entry : list) {
 			Result result = new Result();
 			Document d = searcher.doc(entry.getKey());
-			//Double score = entry.getValue();
+			// Double score = entry.getValue();
 			String source = getSource(d.get("docno"));
 
 			// System.out.println("Score:" + score);
@@ -224,6 +229,27 @@ public class LuceneService {
 		});
 
 		return list;
+	}
+
+	/**
+	 * lucene tokenize query to terms
+	 * give credit to http://stackoverflow.com/questions/6334692/how-to-use-a-lucene-analyzer-to-tokenize-a-string#answer-9562816
+	 * 
+	 * @throws IOException
+	 */
+	public List<String> tokenizeString(Analyzer analyzer, String string) {
+		List<String> result = new ArrayList<String>();
+		try {
+			TokenStream stream = analyzer.tokenStream(null, new StringReader(string));
+			stream.reset();
+			while (stream.incrementToken()) {
+				result.add(stream.getAttribute(CharTermAttribute.class).toString());
+			}
+		} catch (IOException e) {
+			// not thrown b/c we're using a string reader...
+			throw new RuntimeException(e);
+		}
+		return result;
 	}
 
 	@SuppressWarnings("unused")

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
 
+import edu.pitt.IRWebProject.bing.translator.api.bingTranslator;
+
 /**
  * @JavaVersion 1.8
  * @ClassName: bingTranslator
@@ -76,6 +78,7 @@ public class BingTranslatorService {
 
 	/**
 	 * translate given text
+	 * 
 	 * @param line
 	 * @return
 	 * @throws Exception
@@ -126,9 +129,28 @@ public class BingTranslatorService {
 		}
 	}
 
+	public String translateQuery(String query) {
+		String str = null;
+		if (query != null && query.length() != 0) {
+			try {
+				if (query.getBytes().length < MAXBYTES / bytesPerChar) {
+					str = Translate.execute(query, originLan, destLan);
+				} else {
+					str = processLargeText(query);
+				}
+			} catch (Exception e) {
+				System.out.println("Translate Query Error" + e.getMessage());
+			}
+		}
+		return str;
+	}
+
 	public static void main(String[] args) throws Exception {
-		BingTranslatorService trans = new BingTranslatorService("CHINESE_SIMPLIFIED", "ENGLISH");
-		trans.translate();
+		bingTranslator trans = new bingTranslator(Language.CHINESE_SIMPLIFIED, Language.ENGLISH);
+		String str = "你好";
+		String translatedStr = trans.translateQuery(str);
+		System.out.println(translatedStr);
+		// trans.translate();
 	}
 
 }

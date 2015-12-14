@@ -27,10 +27,11 @@ public class SearchRecordController {
 	 * @param query
 	 * @return
 	 */
-	@RequestMapping("searchTip.json")
+	@RequestMapping(value = "searchTip.json", produces = "application/json")
 	@ResponseBody
 	public String getSearchTip(HttpServletResponse response,
 			@RequestParam(value = "query", required = true) String query) {
+		response.setContentType("application/json");
 		List<SearchRecord> list = searchRecordServices.selectSearchByQueryLike(query);
 		JSONArray result = new JSONArray();
 		if (result != null) {

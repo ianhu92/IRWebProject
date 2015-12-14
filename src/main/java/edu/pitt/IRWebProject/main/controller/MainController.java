@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import edu.pitt.IRWebProject.lucene.bo.Result;
 import edu.pitt.IRWebProject.lucene.bo.ResultList;
 import edu.pitt.IRWebProject.searchRecord.bo.SearchRecord;
 import edu.pitt.IRWebProject.searchRecord.service.SearchRecordServices;
+import com.memetix.mst.detect.Detect;
 
 /**
  * main controller for ".html" page requests
@@ -37,12 +40,14 @@ public class MainController {
 	@Autowired
 	private LuceneService luceneService;
 
+	@Autowired
 	private BingTranslatorService bingTranslatorService;
 
-	@Autowired
-	public void initBingtranslatorService() {// initialize bingTranslatorService
-		this.bingTranslatorService = new BingTranslatorService("ENGLISH", "CHINESE_SIMPLIFIED");
-	}
+	/*
+	 * public void initBingtranslatorService() {// initialize bingTranslatorService
+	 * this.bingTranslatorService = new BingTranslatorService("ENGLISH", "CHINESE_SIMPLIFIED");
+	 * }
+	 */
 
 	/**
 	 * map index.html
@@ -70,17 +75,26 @@ public class MainController {
 		if (query == null || "".equals(query)) {
 			return new ModelAndView("redirect:./index.html");
 		}
-		String queryEncode = query;
-		query = URLDecoder.decode(query, "UTF-8");
-		//Language queryLanguage = 
-		
-		String[] terms;
-		if (query.contains(" ")) {
-			terms = query.split(" ");
+
+		String queryEncode = URLEncoder.encode(query, "ISO-8859-1");
+		query = URLDecoder.decode(queryEncode, "UTF-8");
+
+		// translate if necessary
+		Language targetLanguage;
+		if ("en".equals(lan)) {
+			targetLanguage = Language.ENGLISH;
+		} else if ("zh_cn".equals(lan)) {
+			targetLanguage = Language.CHINESE_SIMPLIFIED;
 		} else {
-			terms = new String[1];
-			terms[0] = query;
+			targetLanguage = Language.ENGLISH;
 		}
+		Language queryLanguage = Detect.execute(query);
+		if (targetLanguage != queryLanguage) {
+			bingTranslatorService.setOriginLan(queryLanguage);
+			bingTranslatorService.setDestLan(targetLanguage);
+			query = bingTranslatorService.translateQuery(query);
+		}
+		List<String> terms = luceneService.tokenizeString(new StandardAnalyzer(), query);
 
 		// insert search record
 		Date date = new Date();
@@ -122,6 +136,16 @@ public class MainController {
 				}
 
 				// set bold text with query terms
+				/*
+				 * String[] terms;
+				 * if (query.contains(" ")) {
+				 * terms = query.split(" ");
+				 * } else {
+				 * terms = new String[1];
+				 * terms[0] = query;
+				 * }
+				 */
+
 				for (String term : terms) {
 					Pattern pattern = Pattern
 							.compile("(^|[^a-zA-Z0-9>])" + term + "($|[^a-zA-Z0-9<])");
