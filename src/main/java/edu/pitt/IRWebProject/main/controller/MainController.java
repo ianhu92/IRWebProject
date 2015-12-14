@@ -1,6 +1,7 @@
 package edu.pitt.IRWebProject.main.controller;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -79,6 +80,15 @@ public class MainController {
 		System.out.println(end - start);
 
 		for (Result result : resultList) {
+			// process url
+			String url = result.getUrl();
+			if (url != null && url.contains("zhihu.com")) {
+				String originalUrl = URLEncoder.encode(url, "UTF-8");
+				url = "http://www.microsofttranslator.com/bv.aspx?from=&to=en&a=" + originalUrl;
+				result.setUrl(url);
+			}
+
+			// process answer
 			String answer = result.getAnswer();
 			if (answer != null) {
 				// delete all html tags
