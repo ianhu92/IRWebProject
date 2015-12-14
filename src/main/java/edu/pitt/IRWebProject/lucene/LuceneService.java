@@ -66,6 +66,7 @@ public class LuceneService {
 		if (dir2 == null) {
 			dir2 = FSDirectory.open(Paths.get(rootPath + "/resources/data/StackOverFlowIndex/"));
 		}
+
 	}
 
 	private void initReader() throws IOException {
@@ -83,7 +84,7 @@ public class LuceneService {
 
 		String result = readSortedResults(results);
 
-		closeReader();
+//		closeReader();
 
 		return result;
 	}
@@ -114,7 +115,9 @@ public class LuceneService {
 	private ScoreDoc[] searchDoc(String query) throws Exception {
 		// the "title" arg specifies the default field to use
 		// when no field is explicitly specified in the query.
-		initReader();
+		if (readers == null) {
+            initReader();
+        }
 
 		String[] fields = new String[] { "title", "content", "answerContent" };
 		MultiFieldQueryParser multiFieldQueryParser = new MultiFieldQueryParser(fields, analyzer);
@@ -132,14 +135,8 @@ public class LuceneService {
 	private String readSortedResults(ScoreDoc[] hits) throws IOException {
 		JSONArray jsonArray = new JSONArray();
 
-		StringBuilder sb = new StringBuilder();
-
-		// 4. display results
-		System.out.println("Found " + hits.length + " hits.");
-
 		List<Map.Entry<Integer, Double>> list = sortDocScore(hits);
 
-		// sb.append("[");
 
 		for (Map.Entry<Integer, Double> entry : list) {
 			JSONObject jsonObject = new JSONObject();
@@ -155,13 +152,6 @@ public class LuceneService {
 			jsonObject.put("votes", d.get("votes"));
 
 			jsonArray.put(jsonObject);
-			// sb.append("{");
-			// sb.append("\"title\":\"" + d.get("title") + "\" , ");
-			// sb.append("\"url\":\"" + d.get("url") + "\" , ");
-			// sb.append("\"source\":\"" + source + "\" , ");
-			// sb.append("\"answer\":\"" + d.get("answerContent") + "\" , ");
-			// sb.append("\"votes\":\"" + d.get("votes") + "\" ");
-			// sb.append("}, ");
 
 			// System.out.println("DOCNO:" + d.get("docno"));
 			// System.out.println("title:" + d.get("title"));
@@ -169,9 +159,6 @@ public class LuceneService {
 			// System.out.println("votes:" + d.get("votes"));
 			// System.out.println("Answer:" + d.get("answerContent"));
 		}
-
-		// sb.setLength(sb.length() - 1);
-		// sb.append("]");
 
 		return jsonArray.toString();
 	}
