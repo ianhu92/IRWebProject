@@ -194,7 +194,7 @@ public class LuceneService {
 						+ Math.log1p(ansLength) / 10 + Math.log1p(totalVotes) / 100;
 			} else {
 				newScore = (double) hit.score / topScore + Math.log1p(votes) / 8
-						+ Math.log1p(ansLength) / 10 + Math.log1p(totalVotes) / 100;
+						+ Math.log1p(ansLength) / 8 + Math.log1p(totalVotes) / 100;
 			}
 
 			treeMap.put(hit.doc, newScore);
