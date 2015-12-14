@@ -13,11 +13,13 @@ import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
+@Service
 public class LuceneService {
     StandardAnalyzer analyzer;
     Directory dir1;
@@ -69,6 +71,7 @@ public class LuceneService {
         return result;
     }
 
+    @SuppressWarnings("unused")
     private void writetoLucene(String type) throws IOException {
         TrecWebReader webReader;
 
