@@ -177,7 +177,10 @@ public class LuceneService {
 			// Calculate Final Score
 			// Double Origin = hit.score * (Double.valueOf(d.get("votes")) + 1);
 
-			Double newScore = hit.score * (votes + 1) * ansLength;
+			while (votes > 1000) {
+				votes /= 10;
+			}
+			Double newScore = hit.score + (votes + 1) * ansLength;
 
 			treeMap.put(hit.doc, newScore);
 		}
