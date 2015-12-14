@@ -166,6 +166,9 @@ public class LuceneService {
 	private List<Map.Entry<Integer, Double>> sortDocScore(ScoreDoc[] hits) throws IOException {
 		TreeMap<Integer, Double> treeMap = new TreeMap<Integer, Double>();
 
+		// **原始最高分:
+		Double topScore = Double.valueOf(hits[0].score);
+
 		for (ScoreDoc hit : hits) {
 			Document d = searcher.doc(hit.doc);
 			Double votes = Double.valueOf(d.get("votes"));
@@ -177,10 +180,10 @@ public class LuceneService {
 			// Calculate Final Score
 			// Double Origin = hit.score * (Double.valueOf(d.get("votes")) + 1);
 
-			while (votes > 1000) {
-				votes /= 10;
-			}
-			Double newScore = hit.score + (votes + 1) * ansLength;
+//			while (votes > 1000) {
+//				votes /= 10;
+//			}
+			Double newScore = hit.score + ((votes + 1.0) + ansLength) / (totalVotes - votes + 1);
 
 			treeMap.put(hit.doc, newScore);
 		}
