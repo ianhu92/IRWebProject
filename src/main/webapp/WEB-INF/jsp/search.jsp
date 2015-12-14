@@ -41,21 +41,21 @@
 
 		<div class="row footer">
 			<div class="col-md-4 col-md-offset-4">
-				<nav>
+				<nav style="text-align: center">
 					<ul class="pagination">
 						<c:if test="${(currentPage-5>=1?currentPage-5:1)>1}">
-							<li><a
+							<li><a style="padding: 6px 8px;"
 								href="./search.html?query=${queryEncode}&page=${(currentPage-5>=1?currentPage-5:1)-1}"
 								aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 						</c:if>
 						<c:forEach var="i" begin="${currentPage-5>=1?currentPage-5:1}"
-							end="${(currentPage-5>=1?currentPage-5:1)+9}">
-							<li><a href="./search.html?query=${queryEncode}&page=${i}"
+							end="${((currentPage-5>=1?currentPage-5:1)+9)<=totalPage?((currentPage-5>=1?currentPage-5:1)+9):totalPage}">
+							<li><a style="padding: 6px 10px;" href="./search.html?query=${queryEncode}&page=${i}"
 								<c:if test="${currentPage==i}">style="color:black"</c:if>>${i}${end}</a></li>
 						</c:forEach>
 
-						<c:if test="${((currentPage-5>=1?currentPage-5:1)+9)<totalPage}">
-							<li><a
+						<c:if test="${(currentPage-5>=1?currentPage-5:1)+9<totalPage}">
+							<li><a style="padding: 6px 8px;"
 								href="./search.html?query=${queryEncode}&page=${(currentPage-5>=1?currentPage-5:1)+10}"
 								aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 						</c:if>
