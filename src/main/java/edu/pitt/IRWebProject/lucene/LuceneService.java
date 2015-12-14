@@ -13,8 +13,6 @@ import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,8 +52,7 @@ public class LuceneService {
 		// lucene.writetoLucene("StackOverFlow");
 		// lucene.writetoLucene("zhihu");
 
-		String json = lucene.searchQuery("How to create google");
-		System.out.println(json);
+		ArrayList<Result> list = lucene.searchQuery("How to create google");
 	}
 
 	private void initDirectory() throws IOException {
@@ -79,10 +76,10 @@ public class LuceneService {
 		searcher = new IndexSearcher(new MultiReader(readers));
 	}
 
-	public String searchQuery(String query) throws Exception {
+	public ArrayList<Result> searchQuery(String query) throws Exception {
 		ScoreDoc[] results = searchDoc(query);
 
-		String result = readSortedResults(results);
+		ArrayList<Result> result = readSortedResults(results);
 
 //		closeReader();
 
@@ -132,26 +129,26 @@ public class LuceneService {
 		return hits;
 	}
 
-	private String readSortedResults(ScoreDoc[] hits) throws IOException {
-		JSONArray jsonArray = new JSONArray();
+	private ArrayList<Result> readSortedResults(ScoreDoc[] hits) throws IOException {
+		ArrayList<Result> resultList = new ArrayList<Result>();
 
 		List<Map.Entry<Integer, Double>> list = sortDocScore(hits);
 
 
 		for (Map.Entry<Integer, Double> entry : list) {
-			JSONObject jsonObject = new JSONObject();
+			Result result = new Result();
 			Document d = searcher.doc(entry.getKey());
 			Double score = entry.getValue();
 			String source = getSource(d.get("docno"));
 
 			// System.out.println("Score:" + score);
-			jsonObject.put("title", d.get("title"));
-			jsonObject.put("url", d.get("url"));
-			jsonObject.put("soucre", source);
-			jsonObject.put("answer", d.get("answerContent"));
-			jsonObject.put("votes", d.get("votes"));
+            result.setTitle(d.get("title"));
+            result.setUrl(d.get("url"));
+            result.setSource(source);
+            result.setVotes(d.get("votes"));
+            result.setAnswer(d.get("answerContent"));
 
-			jsonArray.put(jsonObject);
+            resultList.add(result);
 
 			// System.out.println("DOCNO:" + d.get("docno"));
 			// System.out.println("title:" + d.get("title"));
@@ -160,7 +157,7 @@ public class LuceneService {
 			// System.out.println("Answer:" + d.get("answerContent"));
 		}
 
-		return jsonArray.toString();
+		return resultList;
 	}
 
 	private String getSource(String docno) {
