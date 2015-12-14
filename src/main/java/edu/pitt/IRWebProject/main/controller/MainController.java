@@ -137,21 +137,6 @@ public class MainController {
 	}
 
 	/**
-	 * map the tested hello world page
-	 * 
-	 * @param name
-	 * @return
-	 */
-	@RequestMapping("hello.html")
-	public ModelAndView showMessage(
-			@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
-		ModelAndView mv = new ModelAndView("helloworld");
-		mv.addObject("message", message);
-		mv.addObject("name", name);
-		return mv;
-	}
-
-	/**
 	 * get search tip by input query
 	 * 
 	 * @param query

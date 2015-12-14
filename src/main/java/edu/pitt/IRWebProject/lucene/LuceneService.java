@@ -129,8 +129,8 @@ public class LuceneService {
 		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
 		searcher.search(q, collector);
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
-		System.out.println("topdocid" + hits[0].doc);
-		System.out.println("hitsLength" + hits.length);
+		/*System.out.println("topdocid" + hits[0].doc);
+		System.out.println("hitsLength" + hits.length);*/
 		return hits;
 	}
 
