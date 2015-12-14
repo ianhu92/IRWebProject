@@ -58,10 +58,10 @@ public class LuceneService {
 	private void initDirectory() throws IOException {
 		String rootPath = servletContext.getRealPath("/");
 		if (dir1 == null) {
-			dir1 = FSDirectory.open(Paths.get(rootPath + "/resources/data/ZhihuIndex/"));
+			dir1 = FSDirectory.open(Paths.get(rootPath + "/data/ZhihuIndex/"));
 		}
 		if (dir2 == null) {
-			dir2 = FSDirectory.open(Paths.get(rootPath + "/resources/data/StackOverFlowIndex/"));
+			dir2 = FSDirectory.open(Paths.get(rootPath + "/data/StackOverFlowIndex/"));
 		}
 
 	}
@@ -120,7 +120,7 @@ public class LuceneService {
 		MultiFieldQueryParser multiFieldQueryParser = new MultiFieldQueryParser(fields, analyzer);
 		Query q = multiFieldQueryParser.parse(query);
 
-		int hitsPerPage = 150;
+		int hitsPerPage = 10;
 
 		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
 		searcher.search(q, collector);

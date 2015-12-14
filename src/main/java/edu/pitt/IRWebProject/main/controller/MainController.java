@@ -1,9 +1,10 @@
 package edu.pitt.IRWebProject.main.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.pitt.IRWebProject.lucene.LuceneService;
+import edu.pitt.IRWebProject.lucene.Result;
 import edu.pitt.IRWebProject.searchRecord.bo.SearchRecord;
 import edu.pitt.IRWebProject.searchRecord.service.SearchRecordServices;
 
@@ -26,6 +29,9 @@ public class MainController {
 
 	@Autowired
 	private SearchRecordServices searchRecordServices;
+
+	@Autowired
+	private LuceneService luceneService;
 
 	/**
 	 * map index.html
@@ -41,28 +47,58 @@ public class MainController {
 	 * map search.html
 	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException
+	 * @throws Exception
 	 */
 	@RequestMapping("search.html")
 	public ModelAndView showResult(@RequestParam(value = "query", required = false) String query)
-			throws UnsupportedEncodingException {
+			throws Exception {
 		if (query == null || "".equals(query)) {
 			return new ModelAndView("redirect:./index.html");
 		}
 
 		query = URLDecoder.decode(query, "UTF-8");
+		String[] terms;
+		if (query.contains(" ")) {
+			terms = query.split(" ");
+		} else {
+			terms = new String[1];
+			terms[0] = query;
+		}
 
 		// insert search record
 		Date date = new Date();
-		int result = searchRecordServices.insertSearchRecord(new SearchRecord(query, date));
-		if (result != 1) {
+		int insertReturn = searchRecordServices.insertSearchRecord(new SearchRecord(query, date));
+		if (insertReturn != 1) {
 			// TODO: do something if insert failed
 		}
 
 		// do search
+		List<Result> resultList = luceneService.searchQuery(query);
+		for (Result result : resultList) {
+			String answer = result.getAnswer();
+			if (answer != null) {
+				// delete all html tags
+				answer = answer.replaceAll("<[^>]*>", "");
+
+				// trim within certain length
+				if (answer.length() > 500) {
+					int lastSpaceIndex = answer.lastIndexOf(" ", 500);
+					answer = answer.substring(0, lastSpaceIndex) + " ...";
+				}
+
+				// set bold text with query terms
+				for (String term : terms) {
+					// TODO: long way to full logic
+					answer.replaceAll(" " + term + " ", " <strong>" + term + "</strong> ");
+				}
+
+				result.setAnswer(answer);
+			}
+		}
 
 		ModelAndView mv = new ModelAndView("search");
-		mv.addObject("query", query);
+		mv.addObject(query);
+		mv.addObject(resultList);
 		return mv;
 	}
 
