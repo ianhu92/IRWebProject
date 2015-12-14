@@ -4,8 +4,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,8 +49,9 @@ public class MainController {
 	 * @throws Exception
 	 */
 	@RequestMapping("search.html")
-	public ModelAndView showResult(@RequestParam(value = "query", required = false) String query)
-			throws Exception {
+	public ModelAndView showResult(@RequestParam(value = "query", required = false) String query,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page)
+					throws Exception {
 		if (query == null || "".equals(query)) {
 			return new ModelAndView("redirect:./index.html");
 		}
@@ -77,7 +76,7 @@ public class MainController {
 		Long start = System.currentTimeMillis();
 		List<Result> resultList = luceneService.searchQuery(query);
 		Long end = System.currentTimeMillis();
-		System.out.println(end - start);
+		System.out.println("Searched query \"" + query + "\" for " + (double)(end - start)/1000 + " seconds.");
 
 		for (Result result : resultList) {
 			// process url
