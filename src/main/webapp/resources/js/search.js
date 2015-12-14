@@ -13,7 +13,7 @@ define(function(require, exports) {
 	/**
 	 * deprecated!!!! Need to do this in back end.
 	 */
-	$(".limitURL").each(function(i) {
+	/*$(".limitURL").each(function(i) {
 		len = $(this).text().length;
 		if (len > 30) {
 			$(this).text($(this).text().substr(0, 30) + '...');
@@ -24,5 +24,5 @@ define(function(require, exports) {
 		if (len > 500) {
 			$(this).text($(this).text().substr(0, 500) + '...');
 		}
-	});
+	});*/
 });

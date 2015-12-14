@@ -8,8 +8,6 @@
 <jsp:include page="/WEB-INF/jsp/include/html_head.jsp"></jsp:include>
 
 <link href="./resources/css/search.css" type="text/css" rel="stylesheet" />
-
-
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/include/result_header.jsp"></jsp:include>
@@ -28,7 +26,9 @@
 						<span>Votes:</span><span>${result.votes}</span>
 					</div>
 					<div class="col-md-12 answer" style="margin-top: 5px">
-						<p class="limitAnswer">${result.answer}</p>
+						<p class="limitAnswer">
+							<c:out value="${result.answer}" escapeXml="false" />
+						</p>
 					</div>
 
 					<div class="col-md-12 source">

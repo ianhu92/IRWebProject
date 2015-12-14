@@ -190,10 +190,10 @@ public class LuceneService {
 			// ln function algorithm
 			Double newScore;
 			if (source.equals("zhihu")) {
-				newScore = (double) hit.score / topScore + Math.log1p(votes) / 10
+				newScore = (double) hit.score * 2 / topScore + Math.log1p(votes) / 10
 						+ Math.log1p(ansLength) / 10 + Math.log1p(totalVotes) / 100;
 			} else {
-				newScore = (double) hit.score / topScore + Math.log1p(votes) / 8
+				newScore = (double) hit.score * 2 / topScore + Math.log1p(votes) / 8
 						+ Math.log1p(ansLength) / 8 + Math.log1p(totalVotes) / 100;
 			}
 

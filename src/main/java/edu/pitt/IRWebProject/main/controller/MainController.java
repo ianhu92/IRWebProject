@@ -4,6 +4,8 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -76,7 +78,8 @@ public class MainController {
 		Long start = System.currentTimeMillis();
 		List<Result> resultList = luceneService.searchQuery(query);
 		Long end = System.currentTimeMillis();
-		System.out.println("Searched query \"" + query + "\" for " + (double)(end - start)/1000 + " seconds.");
+		System.out.println("Searched query \"" + query + "\" for " + (double) (end - start) / 1000
+				+ " seconds.");
 
 		for (Result result : resultList) {
 			// process url
@@ -102,7 +105,16 @@ public class MainController {
 				// set bold text with query terms
 				for (String term : terms) {
 					// TODO: long way to full logic
-					answer.replaceAll(" " + term + " ", " <strong>" + term + "</strong> ");
+					Pattern pattern = Pattern
+							.compile("(^|[^a-zA-Z0-9>])" + term + "($|[^a-zA-Z0-9<])");
+					Matcher matcher = pattern.matcher(answer);
+					while (matcher.find()) {
+						String substr = matcher.group();
+						answer = matcher
+								.replaceFirst(substr.replaceFirst(term, "<b>" + term + "</b>"));
+						matcher = pattern.matcher(answer);
+					}
+					// answer.replaceAll(" " + term + " ", " <strong>" + term + "</strong> ");
 				}
 
 				result.setAnswer(answer);
