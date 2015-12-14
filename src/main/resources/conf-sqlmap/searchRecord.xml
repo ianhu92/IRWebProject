@@ -16,6 +16,7 @@
 		WHERE query LIKE '${query}%'
 		GROUP BY query
 		ORDER BY COUNT(*) DESC
+		LIMIT 10;
 	</select>
 
 	<insert id="insertSearchRecord" parameterType="edu.pitt.IRWebProject.searchRecord.bo.SearchRecord"
