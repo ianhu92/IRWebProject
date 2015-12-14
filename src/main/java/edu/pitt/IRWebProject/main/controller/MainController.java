@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.pitt.IRWebProject.lucene.LuceneService;
 import edu.pitt.IRWebProject.lucene.Result;
+import edu.pitt.IRWebProject.lucene.ResultList;
 import edu.pitt.IRWebProject.searchRecord.bo.SearchRecord;
 import edu.pitt.IRWebProject.searchRecord.service.SearchRecordServices;
 
@@ -57,7 +58,7 @@ public class MainController {
 		if (query == null || "".equals(query)) {
 			return new ModelAndView("redirect:./index.html");
 		}
-
+		String queryEncode = query;
 		query = URLDecoder.decode(query, "UTF-8");
 		String[] terms;
 		if (query.contains(" ")) {
@@ -76,7 +77,11 @@ public class MainController {
 
 		// do search
 		Long start = System.currentTimeMillis();
-		List<Result> resultList = luceneService.searchQuery(query);
+		ResultList resultListObj = luceneService.searchQuery(query, page);
+		List<Result> resultList = resultListObj.getResults();
+		int totalPage = resultListObj.getTotalPage();
+		int totalDoc = resultListObj.getTotalDoc();
+
 		Long end = System.currentTimeMillis();
 		System.out.println("Searched query \"" + query + "\" for " + (double) (end - start) / 1000
 				+ " seconds.");
@@ -123,7 +128,11 @@ public class MainController {
 
 		ModelAndView mv = new ModelAndView("search");
 		mv.addObject("query", query);
+		mv.addObject("queryEncode", queryEncode);
 		mv.addObject("resultList", resultList);
+		mv.addObject("currentPage", page);
+		mv.addObject("totalPage", totalPage);
+		mv.addObject("totalDoc", totalDoc);
 		return mv;
 	}
 

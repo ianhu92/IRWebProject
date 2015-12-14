@@ -43,20 +43,22 @@
 			<div class="col-md-4 col-md-offset-4">
 				<nav>
 					<ul class="pagination">
-						<li><a href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-						</a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#">6</a></li>
-						<li><a href="#">7</a></li>
-						<li><a href="#">8</a></li>
-						<li><a href="#">9</a></li>
-						<li><a href="#">10</a></li>
-						<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-						</a></li>
+						<c:if test="${(currentPage-5>=1?currentPage-5:1)>1}">
+							<li><a
+								href="./search.html?query=${queryEncode}&page=${(currentPage-5>=1?currentPage-5:1)-1}"
+								aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+						</c:if>
+						<c:forEach var="i" begin="${currentPage-5>=1?currentPage-5:1}"
+							end="${(currentPage-5>=1?currentPage-5:1)+9}">
+							<li><a href="./search.html?query=${queryEncode}&page=${i}"
+								<c:if test="${currentPage==i}">style="color:black"</c:if>>${i}${end}</a></li>
+						</c:forEach>
+
+						<c:if test="${((currentPage-5>=1?currentPage-5:1)+9)<totalPage}">
+							<li><a
+								href="./search.html?query=${queryEncode}&page=${(currentPage-5>=1?currentPage-5:1)+10}"
+								aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+						</c:if>
 					</ul>
 				</nav>
 			</div>
