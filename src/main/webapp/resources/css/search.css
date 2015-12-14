@@ -3,8 +3,8 @@
 	margin: 0px;
 }
 
-.container{
-	padding: 40px 0;
+body{
+	word-wrap: break-word;
 }
 
 a {
@@ -12,18 +12,27 @@ a {
 }
 
 .question{
+	padding: 15px 0;
 	border-color: white;
 	border-style: solid;
 	border-top-color: #999;
 	border-top-width: thin;
 }
 
-.title h4{
+.label{
+	line-height: 1.4;
+	color: #333;
+	font-size: 15px;
+    letter-spacing: 0;
+}
+
+.title{
 	color: #0077CC !important;
-	font-size: 19px;
+	font-size: 22px;
     letter-spacing: -0.5px;
     line-height: 1.25;
     font-weight: bold;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .url {
@@ -31,14 +40,21 @@ a {
 }
 
 .answer{
-    font-family: Georgia,Times,"Times New Roman",serif;
+    font-family: "Georgia","Times","Times New Roman","serif";
     font-size: 15px;
     line-height: 1.4;
+    color: #333;
 }
 
 .sitename {
 	color: #999;
     font-weight: 400;
+}
+
+.vote{
+	font-size: 13px;
+    color: #999;
+    font-weight: bold;
 }
 
 .footer {

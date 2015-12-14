@@ -2,7 +2,7 @@
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="./index.html">SearchAnswer</a>
+			<a class="navbar-brand" href="./index.html"></a>
 		</div>
 		
 		

@@ -12,19 +12,20 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/include/result_header.jsp"></jsp:include>
-	<div class=".container-fluid" style="margin-top: 60px">
+	<div class=".container-fluid" style="margin-top: 120px">
 		<div class="row">
+			<div class="col-md-8 col-md-offset-2 label"><p class="text-left">Top Results For You</p></div>
 			<%
 				for (int i = 0; i < 10; i++) {
 			%>
 			<div class="col-md-8 col-md-offset-2 question">
 				<div class="col-md-12 title">
 					<a href="Input quetion URL here">
-						<h4>Do you have to see the original Star Wars movies before seeing the new one? <%=i%></h4>
+						<div>Do you have to see the original Star Wars movies before seeing the new one?</div>
 					</a>
 				</div>
-				<div class="col-md-12 vote">Vote:</div>
-				<div class="col-md-12 answer">
+				<div class="col-md-12 vote" style="margin-top: 20px"><span>Votes:</span><span>100</span></div>
+				<div class="col-md-12 answer" style="margin-top: 5px">
 					<p class="limitAnswer">Invited. Unfortunately, I am not Li, so I don't have his perspective
 						and a strategic height. Just from I personal level to on about: Baidu of search technology
 						should not poor, from technology level Shang said, Baidu is not fear 360 of, from user stick
@@ -65,7 +66,7 @@
 			<%
 				}
 			%>
-
+			<div class="col-md-8 col-md-offset-2 question"></div>
 		</div>
 
 		<div class="row footer">

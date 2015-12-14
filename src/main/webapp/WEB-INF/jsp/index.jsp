@@ -14,22 +14,21 @@
 	<div id="container" class=".container-fluid">
 		<%-- <jsp:include page="/WEB-INF/jsp/include/header.jsp"></jsp:include> --%>
 
-		<div class="row">
-			<div class="col-xs-1 col-sm-2 col-md-3"></div>
-			<div class="col-xs-10 col-sm-8 col-md-6">
-				<h1 class="text-primary text-center">Zhihu overflow</h1>
+		<div class="row" style="margin-top: 50px">
+			<div class="col-md-4 col-md-offset-4">
+				<!-- <h1 class="text-primary text-center">Zhihu overflow</h1> -->
+				<img src="./resources/img/logo.png" class="img-responsive center-block" alt="logo">
+
 			</div>
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 		</div>
-		<div class="row">
-			<div class="col-xs-1 col-sm-2 col-md-3"></div>
-			<div class="col-xs-10 col-sm-8 col-md-6 input-group">
+		<div class="row" style="margin-top: 40px">
+			<div class="col-xs-10 col-sm-8 col-md-6 col-xs-offset-1 col-sm-offset-2 col-md-offset-3 input-group">
 				<input id="inputBox" type="text" class="form-control input-lg" />
 				<div class="input-group-btn">
 					<button id="searchButton" type="button" class="btn btn-primary btn-lg">Search</button>
 				</div>
 			</div>
-			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 		</div>
 		<div class="row">
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
