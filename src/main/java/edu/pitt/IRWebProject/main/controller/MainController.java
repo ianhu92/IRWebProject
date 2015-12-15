@@ -50,8 +50,19 @@ public class MainController {
 	private BingTranslatorService bingTranslatorService;
 
 	/**
+	 * map to root: "domain/"
+	 * 
+	 * @return
+	 */
+	@RequestMapping("")
+	public String redirectRootUrl() {
+		return "redirect:./index.html";
+	}
+
+	/**
 	 * map index.html
 	 * 
+	 * @param languageShortName
 	 * @return
 	 * @throws Exception
 	 */
@@ -77,6 +88,9 @@ public class MainController {
 	/**
 	 * map search.html
 	 * 
+	 * @param query
+	 * @param page
+	 * @param languageShortName
 	 * @return
 	 * @throws Exception
 	 */
