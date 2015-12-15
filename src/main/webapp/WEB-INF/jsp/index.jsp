@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>SearchAnswer</title>
+<title>Omni Answer</title>
 <jsp:include page="/WEB-INF/jsp/include/html_head.jsp"></jsp:include>
 
 <link href="./resources/css/index.css" type="text/css" rel="stylesheet" />

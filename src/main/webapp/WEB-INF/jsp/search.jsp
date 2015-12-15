@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>${query}-SearchAnswer</title>
+<title>${query} - Omni Answer</title>
 <jsp:include page="/WEB-INF/jsp/include/html_head.jsp"></jsp:include>
 
 <link href="./resources/css/search.css" type="text/css" rel="stylesheet" />

@@ -33,7 +33,7 @@ public class LanguageController {
 			httpResponse.addCookie(cookie);
 			result.put("errorCode", 0);
 		}else{
-			result.put("errorCode", 1);
+			result.put("errorCode", 2);
 			result.put("errorMessage", "invalid language short name");
 		}
 		return result.toString();

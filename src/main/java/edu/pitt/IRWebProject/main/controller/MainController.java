@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.memetix.mst.language.Language;
 
 import edu.pitt.IRWebProject.lucene.service.LuceneService;
+import edu.pitt.IRWebProject.main.service.MainService;
 import edu.pitt.IRWebProject.language.bo.LanguageBO;
 import edu.pitt.IRWebProject.language.service.BingTranslatorService;
 import edu.pitt.IRWebProject.lucene.bo.Result;
@@ -36,6 +37,9 @@ import com.memetix.mst.detect.Detect;
 @Controller
 @RequestMapping("/")
 public class MainController {
+	@Autowired
+	private MainService mainService;
+
 	@Autowired
 	private SearchRecordServices searchRecordServices;
 
@@ -69,6 +73,14 @@ public class MainController {
 	}
 
 	/**
+	 * map error.html
+	 */
+	@RequestMapping("error.html")
+	public ModelAndView showError() {
+		return new ModelAndView("error");
+	}
+
+	/**
 	 * map search.html
 	 * 
 	 * @return
@@ -79,28 +91,30 @@ public class MainController {
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@CookieValue(value = "language", required = false, defaultValue = "en") String languageShortName)
 					throws Exception {
-		if (query == null || "".equals(query)) {
-			return new ModelAndView("redirect:./index.html");
-		}
-		String queryEncode = URLEncoder.encode(query, "ISO-8859-1");
-		query = URLDecoder.decode(queryEncode, "UTF-8");
-
-		// translate if necessary
-		Language targetLanguage = Language.fromString(languageShortName);
-		Language queryLanguage = Detect.execute(query);
-		if (targetLanguage != queryLanguage) {
-			bingTranslatorService.setOriginLan(queryLanguage);
-			bingTranslatorService.setDestLan(targetLanguage);
-			query = bingTranslatorService.translateQuery(query);
-		}
-		List<String> terms = luceneService.tokenizeString(new StandardAnalyzer(), query);
-
 		// insert search record
 		Date date = new Date();
-		int insertReturn = searchRecordServices.insertSearchRecord(new SearchRecord(query, date));
-		if (insertReturn != 1) {
-			// TODO: do something if insert failed
+		searchRecordServices.insertSearchRecord(new SearchRecord(query, date));
+
+		// deal with empty query
+		if (query == null || "".equals(query)) {
+			return mainService.returnErrorPage(1, "Invalid query.");
 		}
+
+		String queryEncode = URLEncoder.encode(query, "ISO-8859-1");
+		String originalQuery = query = URLDecoder.decode(queryEncode, "UTF-8");
+
+		// translate to english if necessary, so that we can search
+		Language queryLanguage = Detect.execute(query);
+		if (queryLanguage != Language.ENGLISH) {
+			bingTranslatorService.setOriginLan(queryLanguage);
+			bingTranslatorService.setDestLan(Language.ENGLISH);
+			query = bingTranslatorService.translateQuery(query);
+			if (query.contains("TranslateApiException")) {
+				return mainService.returnErrorPage(3, "Translator error.");
+			}
+		}
+
+		List<String> terms = luceneService.tokenizeString(new StandardAnalyzer(), query);
 
 		// do search
 		Long start = System.currentTimeMillis();
