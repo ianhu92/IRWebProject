@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;

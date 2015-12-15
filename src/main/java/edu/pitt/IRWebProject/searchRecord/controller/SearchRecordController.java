@@ -28,10 +28,11 @@ public class SearchRecordController {
 	/**
 	 * get search tip by input query
 	 * 
+	 * @param response
 	 * @param query
 	 * @return
-	 * @throws UnsupportedEncodingException
 	 * @throws JSONException
+	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping(value = "searchTip.json", produces = "application/json")
 	@ResponseBody

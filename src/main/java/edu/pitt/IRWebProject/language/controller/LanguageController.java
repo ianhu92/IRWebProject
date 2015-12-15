@@ -21,6 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/language/")
 public class LanguageController {
 
+	/**
+	 * set language controller, add language cookie
+	 * 
+	 * @param httpResponse
+	 * @param languageShortName
+	 * @return
+	 */
 	@RequestMapping("setLanguage.json")
 	@ResponseBody
 	public String setLanguage(HttpServletResponse httpResponse,
@@ -32,7 +39,7 @@ public class LanguageController {
 			cookie.setMaxAge((int) TimeUnit.DAYS.toSeconds(365));
 			httpResponse.addCookie(cookie);
 			result.put("errorCode", 0);
-		}else{
+		} else {
 			result.put("errorCode", 2);
 			result.put("errorMessage", "invalid language short name");
 		}
