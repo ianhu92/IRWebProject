@@ -23,10 +23,10 @@ public class BingTranslatorService {
 	String delimeter;
 
 	public BingTranslatorService() {
-		/*Translate.setClientId("ianir");
-		Translate.setClientSecret("dUap2bXo4ZYJ2JMxiHmQzA/CI54e55lNnGY+Gpx+Lr8=");*/
-		Translate.setClientId("irproject");
-		Translate.setClientSecret("XACoemwSVv/FBKYaSY7UJI48yAWi75wQKmdDZl5Rxt8=");
+		Translate.setClientId("ianir");
+		Translate.setClientSecret("dUap2bXo4ZYJ2JMxiHmQzA/CI54e55lNnGY+Gpx+Lr8=");
+		/*Translate.setClientId("irproject");
+		Translate.setClientSecret("XACoemwSVv/FBKYaSY7UJI48yAWi75wQKmdDZl5Rxt8=");*/
 		/*Translate.setClientId("siweiliu42");
         Translate.setClientSecret("DmPmwMFLun2qPQL7JoZ3YjocpK0REDnnnJ81oOTW1s8=");*/
 	}

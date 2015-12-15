@@ -49,12 +49,6 @@ public class MainController {
 	@Autowired
 	private BingTranslatorService bingTranslatorService;
 
-	/*
-	 * public void initBingtranslatorService() {// initialize bingTranslatorService
-	 * this.bingTranslatorService = new BingTranslatorService("ENGLISH", "CHINESE_SIMPLIFIED");
-	 * }
-	 */
-
 	/**
 	 * map index.html
 	 * 
@@ -100,8 +94,10 @@ public class MainController {
 			return mainService.returnErrorPage(1, "Invalid query.");
 		}
 
+		// decode query with correct encoding
 		String queryEncode = URLEncoder.encode(query, "ISO-8859-1");
 		String originalQuery = query = URLDecoder.decode(queryEncode, "UTF-8");
+		List<String> terms = luceneService.tokenizeString(new StandardAnalyzer(), query);
 
 		// translate to english if necessary, so that we can search
 		Language queryLanguage = Detect.execute(query);
@@ -114,19 +110,18 @@ public class MainController {
 			}
 		}
 
-		List<String> terms = luceneService.tokenizeString(new StandardAnalyzer(), query);
-
 		// do search
 		Long start = System.currentTimeMillis();
 		ResultList resultListObj = luceneService.searchQuery(query, page);
 		List<Result> resultList = resultListObj.getResults();
 		int totalPage = resultListObj.getTotalPage();
 		int totalDoc = resultListObj.getTotalDoc();
-
 		Long end = System.currentTimeMillis();
 		System.out.println("Searched query \"" + query + "\" for " + (double) (end - start) / 1000
 				+ " seconds.");
 
+		// process result
+		Language targetLanguage = Language.fromString(languageShortName);
 		for (Result result : resultList) {
 			// process url
 			String url = result.getUrl();
@@ -136,28 +131,46 @@ public class MainController {
 				result.setUrl(url);
 			}
 
+			// translate title and answer if necessary
+			String title = result.getTitle();
+			if (targetLanguage != Language.ENGLISH) {
+				bingTranslatorService.setOriginLan(Language.ENGLISH);
+				bingTranslatorService.setDestLan(targetLanguage);
+				title = bingTranslatorService.translateQuery(title);
+				if (title.contains("TranslateApiException")) {
+					return mainService.returnErrorPage(4, "Translator error.");
+				}
+				result.setTitle(title);
+			}
+
 			// process answer
 			String answer = result.getAnswer();
 			if (answer != null) {
 				// delete all html tags
 				answer = answer.replaceAll("<[^>]*>", "");
 
-				// trim within certain length
-				if (answer.length() > 500) {
-					int lastSpaceIndex = answer.lastIndexOf(" ", 500);
-					answer = answer.substring(0, lastSpaceIndex) + " ...";
+				// translate answer
+				if (targetLanguage != Language.ENGLISH) {
+					answer = bingTranslatorService.translateQuery(answer);
+					if (answer.contains("TranslateApiException")) {
+						return mainService.returnErrorPage(5, "Translator error.");
+					}
 				}
 
 				// set bold text with query terms
 				for (String term : terms) {
-					Pattern pattern = Pattern
-							.compile("(^|[^a-zA-Z0-9>])" + term + "($|[^a-zA-Z0-9<])");
-					Matcher matcher = pattern.matcher(answer);
-					while (matcher.find()) {
-						String substr = matcher.group();
-						answer = matcher
-								.replaceFirst(substr.replaceFirst(term, "<b>" + term + "</b>"));
-						matcher = pattern.matcher(answer);
+					if (targetLanguage == Language.ENGLISH) {
+						Pattern pattern = Pattern.compile("(^|[^a-zA-Z0-9\u4e00-\u9fa5>])" + term
+								+ "($|[^a-zA-Z0-9\u4e00-\u9fa5<])");
+						Matcher matcher = pattern.matcher(answer);
+						while (matcher.find()) {
+							String substr = matcher.group();
+							answer = matcher
+									.replaceFirst(substr.replaceFirst(term, "<b>" + term + "</b>"));
+							matcher = pattern.matcher(answer);
+						}
+					} else {
+						answer = answer.replaceAll(term, "<b>" + term + "<b>");
 					}
 				}
 				result.setAnswer(answer);
