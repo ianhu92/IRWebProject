@@ -24,6 +24,15 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-xs-3 col-sm-2">
+			<div style="margin: 8px 0;" class="dropdown">
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:50%">
+					${currentLanguage.displayName}</button>
+				<ul class="dropdown-menu" style="min-width: 50%;width:50%;">
+					<li><a class="dropdownOption" href="javascript:;" language="${optionLanguage.shortName}">${optionLanguage.displayName}</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </nav>
 

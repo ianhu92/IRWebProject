@@ -5,19 +5,20 @@
 <link href="./resources/css/utils/header.css" type="text/css" rel="stylesheet" />
 <script>
 	require.config({
-		paths : {
-			"jquery" : "./resources/js/utils/jquery-1.11.3.min",
-			"json" : "./resources/js/utils/json2",
-			"bootstrap" : "./resources/bootstrap-3.3.6-dist/js/bootstrap.min",
-			"template":"./resources/js/utils/template",
-			
-			// common js
-			"searchTip":"./resources/js/common/searchTip"
-		},
-		shim : {
-			"bootstrap" : {
-				"deps" : [ 'jquery' ]
-			}
-		}
-	})
+        paths : {
+            "jquery" : "./resources/js/utils/jquery-1.11.3.min",
+            "json" : "./resources/js/utils/json2",
+            "bootstrap" : "./resources/bootstrap-3.3.6-dist/js/bootstrap.min",
+            "template" : "./resources/js/utils/template",
+
+            // common js
+            "searchEvent" : "./resources/js/common/searchEvent",
+            "language" : "./resources/js/common/language"
+        },
+        shim : {
+	        "bootstrap" : {
+		        "deps" : [ 'jquery' ]
+	        }
+        }
+    })
 </script>

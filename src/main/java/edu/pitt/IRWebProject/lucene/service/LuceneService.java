@@ -97,7 +97,7 @@ public class LuceneService {
 		int endNum = startNum + 10;
 
 		return new ResultList(result.size(), result.size() / 10, page,
-				result.subList(startNum, endNum));
+				result.subList(startNum, endNum <= result.size() ? endNum : result.size()));
 	}
 
 	/*

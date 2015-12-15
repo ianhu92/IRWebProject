@@ -11,6 +11,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.memetix.mst.language.Language;
 
 import edu.pitt.IRWebProject.lucene.service.LuceneService;
+import edu.pitt.IRWebProject.language.bo.LanguageBO;
 import edu.pitt.IRWebProject.language.service.BingTranslatorService;
 import edu.pitt.IRWebProject.lucene.bo.Result;
 import edu.pitt.IRWebProject.lucene.bo.ResultList;
@@ -53,11 +55,16 @@ public class MainController {
 	 * map index.html
 	 * 
 	 * @return
+	 * @throws Exception
 	 */
 	@RequestMapping("index.html")
 	public ModelAndView showIndex(
-			@RequestParam(value = "lan", required = false, defaultValue = "en") String lan) {
+			@CookieValue(value = "language", required = false, defaultValue = "en") String languageShortName)
+					throws Exception {
 		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("currentLanguage", new LanguageBO(languageShortName));
+		mv.addObject("optionLanguage",
+				"en".equals(languageShortName) ? new LanguageBO("zh-CHS") : new LanguageBO("en"));
 		return mv;
 	}
 
@@ -70,24 +77,16 @@ public class MainController {
 	@RequestMapping("search.html")
 	public ModelAndView showResult(@RequestParam(value = "query", required = false) String query,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-			@RequestParam(value = "lan", required = false, defaultValue = "en") String lan)
+			@CookieValue(value = "language", required = false, defaultValue = "en") String languageShortName)
 					throws Exception {
 		if (query == null || "".equals(query)) {
 			return new ModelAndView("redirect:./index.html");
 		}
-
 		String queryEncode = URLEncoder.encode(query, "ISO-8859-1");
 		query = URLDecoder.decode(queryEncode, "UTF-8");
 
 		// translate if necessary
-		Language targetLanguage;
-		if ("en".equals(lan)) {
-			targetLanguage = Language.ENGLISH;
-		} else if ("zh_cn".equals(lan)) {
-			targetLanguage = Language.CHINESE_SIMPLIFIED;
-		} else {
-			targetLanguage = Language.ENGLISH;
-		}
+		Language targetLanguage = Language.fromString(languageShortName);
 		Language queryLanguage = Detect.execute(query);
 		if (targetLanguage != queryLanguage) {
 			bingTranslatorService.setOriginLan(queryLanguage);
@@ -136,16 +135,6 @@ public class MainController {
 				}
 
 				// set bold text with query terms
-				/*
-				 * String[] terms;
-				 * if (query.contains(" ")) {
-				 * terms = query.split(" ");
-				 * } else {
-				 * terms = new String[1];
-				 * terms[0] = query;
-				 * }
-				 */
-
 				for (String term : terms) {
 					Pattern pattern = Pattern
 							.compile("(^|[^a-zA-Z0-9>])" + term + "($|[^a-zA-Z0-9<])");
@@ -168,6 +157,9 @@ public class MainController {
 		mv.addObject("currentPage", page);
 		mv.addObject("totalPage", totalPage);
 		mv.addObject("totalDoc", totalDoc);
+		mv.addObject("currentLanguage", new LanguageBO(languageShortName));
+		mv.addObject("optionLanguage",
+				"en".equals(languageShortName) ? new LanguageBO("zh-CHS") : new LanguageBO("en"));
 		return mv;
 	}
 

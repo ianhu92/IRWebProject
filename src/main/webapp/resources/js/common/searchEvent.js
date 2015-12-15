@@ -2,8 +2,8 @@ define(function(require, exports, module) {
 	var $ = require("jquery");
 	var template = require("template");
 
-	// define searchTip
-	var searchTip = {
+	// define searchEvent
+	var searchEvent = {
 	    selector : {
 	        inputBox : "",
 	        searchTip : "",
@@ -17,9 +17,9 @@ define(function(require, exports, module) {
 		    // show searchTip event
 		    $(this.selector.inputBox).on("keyup", function(e) {
 			    if ($(this).val()) {
-				    searchTip.sendRequest($(this).val());
+				    searchEvent.sendRequest($(this).val());
 			    } else {
-				    $(searchTip.selector.searchTip).hide();
+				    $(searchEvent.selector.searchTip).hide();
 			    }
 		    });
 
@@ -28,7 +28,7 @@ define(function(require, exports, module) {
 		            "click",
 		            ":not(" + this.selector.inputBox + ", " + this.selector.searchTip + ","
 		                    + this.selector.searchOption + ")", function(e) {
-			            $(searchTip.selector.searchTip).hide();
+			            $(searchEvent.selector.searchTip).hide();
 		            }).on("click",
 		            this.selector.inputBox + ", " + this.selector.searchTip + "," + this.selector.searchOption,
 		            function(e) {
@@ -37,14 +37,14 @@ define(function(require, exports, module) {
 
 		    // searchTip Option event
 		    $(this.selector.searchTip).on("click", ".searchTipOption", function(e) {
-			    $(searchTip.selector.inputBox).val($(this).text());
-			    $(searchTip.selector.searchTip).hide();
-			    $(searchTip.selector.searchButton).click();
+			    $(searchEvent.selector.inputBox).val($(this).text());
+			    $(searchEvent.selector.searchTip).hide();
+			    $(searchEvent.selector.searchButton).click();
 		    });
 
 		    // search button event
 		    $(this.selector.searchButton).on("click", function(e) {
-			    var query = $(searchTip.selector.inputBox).val();
+			    var query = $(searchEvent.selector.inputBox).val();
 
 			    var url = "./search.html?query=" + encodeURI(query);
 			    location.href = url;
@@ -62,13 +62,13 @@ define(function(require, exports, module) {
 
 			        var html = template('searchTemplate', data);
 			        if (html) {
-				        $(searchTip.selector.searchTip).html(html).show();
+				        $(searchEvent.selector.searchTip).html(html).show();
 			        } else {
-				        $(searchTip.selector.searchTip).hide();
+				        $(searchEvent.selector.searchTip).hide();
 			        }
 		        }
-		    })
+		    });
 	    }
 	};
-	module.exports = searchTip;
+	module.exports = searchEvent;
 });

@@ -29,8 +29,8 @@ public class bingTranslator {
 	String delimeter;
 
 	public bingTranslator(Language from, Language to) {
-		Translate.setClientId("irproject");
-		Translate.setClientSecret("XACoemwSVv/FBKYaSY7UJI48yAWi75wQKmdDZl5Rxt8=");
+		Translate.setClientId("ianir");
+		Translate.setClientSecret("dUap2bXo4ZYJ2JMxiHmQzA/CI54e55lNnGY+Gpx+Lr8=");
 		originLan = from;
 		destLan = to;
 		if (originLan == Language.CHINESE_SIMPLIFIED) {

@@ -1,11 +1,14 @@
 define(function(require, exports) {
-	var searchTip = require("searchTip");
+	var searchEvent = require("searchEvent");
+	var language = require("language");
 
-	searchTip.setSelector({
+	searchEvent.setSelector({
 	    inputBox : "#inputBox",
 	    searchTip : "#searchTip",
 	    searchOption : ".searchOption",
 	    searchButton : "#searchButton"
 	});
-	searchTip.bindEvent();
+	searchEvent.bindEvent();
+	
+	language.bindEvent();
 });

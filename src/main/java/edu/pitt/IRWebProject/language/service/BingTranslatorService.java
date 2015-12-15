@@ -1,21 +1,9 @@
 package edu.pitt.IRWebProject.language.service;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-
 import org.springframework.stereotype.Service;
 
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
-
-import edu.pitt.IRWebProject.bing.translator.api.bingTranslator;
 
 /**
  * @JavaVersion 1.8
@@ -35,13 +23,13 @@ public class BingTranslatorService {
 	String delimeter;
 
 	public BingTranslatorService() {
-		Translate.setClientId("siweiliu42");
-		Translate.setClientSecret("DmPmwMFLun2qPQL7JoZ3YjocpK0REDnnnJ81oOTW1s8=");
+		Translate.setClientId("ianir");
+		Translate.setClientSecret("dUap2bXo4ZYJ2JMxiHmQzA/CI54e55lNnGY+Gpx+Lr8=");
 	}
 
 	public BingTranslatorService(String fromName, String toName) {
-		Translate.setClientId("siweiliu42");
-		Translate.setClientSecret("DmPmwMFLun2qPQL7JoZ3YjocpK0REDnnnJ81oOTW1s8=");
+		Translate.setClientId("ianir");
+		Translate.setClientSecret("dUap2bXo4ZYJ2JMxiHmQzA/CI54e55lNnGY+Gpx+Lr8=");
 		this.setOriginLan(Language.valueOf(fromName));
 		this.setDestLan(Language.valueOf(toName));
 	}
@@ -98,36 +86,38 @@ public class BingTranslatorService {
 		return output.toString();
 	}
 
-	public void translate() throws Exception {
-		String inputFile = "data//questions.txt";
-		String outputFile = "data//questions_trans.txt";
-		File file = new File(inputFile);
-		File dest = new File(outputFile);
-		try {
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(new FileInputStream(file), "utf-8"));
-			BufferedWriter writer = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(dest), "utf-8"));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				String string = "";
-				if (line.getBytes().length < MAXBYTES) {
-					string = Translate.execute(line, originLan, destLan);
-				} else {
-					string = processLargeText(line);
-				}
-				writer.write(string + "\r\n");
-				writer.flush();
-			}
-			writer.flush();
-			reader.close();
-			writer.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	/*
+	 * public void translate() throws Exception {
+	 * String inputFile = "data//questions.txt";
+	 * String outputFile = "data//questions_trans.txt";
+	 * File file = new File(inputFile);
+	 * File dest = new File(outputFile);
+	 * try {
+	 * BufferedReader reader = new BufferedReader(
+	 * new InputStreamReader(new FileInputStream(file), "utf-8"));
+	 * BufferedWriter writer = new BufferedWriter(
+	 * new OutputStreamWriter(new FileOutputStream(dest), "utf-8"));
+	 * String line = "";
+	 * while ((line = reader.readLine()) != null) {
+	 * String string = "";
+	 * if (line.getBytes().length < MAXBYTES) {
+	 * string = Translate.execute(line, originLan, destLan);
+	 * } else {
+	 * string = processLargeText(line);
+	 * }
+	 * writer.write(string + "\r\n");
+	 * writer.flush();
+	 * }
+	 * writer.flush();
+	 * reader.close();
+	 * writer.close();
+	 * } catch (FileNotFoundException e) {
+	 * e.printStackTrace();
+	 * } catch (IOException e) {
+	 * e.printStackTrace();
+	 * }
+	 * }
+	 */
 
 	public String translateQuery(String query) {
 		String str = null;
@@ -146,7 +136,7 @@ public class BingTranslatorService {
 	}
 
 	public static void main(String[] args) throws Exception {
-		bingTranslator trans = new bingTranslator(Language.CHINESE_SIMPLIFIED, Language.ENGLISH);
+		BingTranslatorService trans = new BingTranslatorService("CHINESE_SIMPLIFIED", "ENGLISH");
 		String str = "你好";
 		String translatedStr = trans.translateQuery(str);
 		System.out.println(translatedStr);
