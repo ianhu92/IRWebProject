@@ -25,15 +25,21 @@ public class BingTranslatorService {
 	public BingTranslatorService() {
 		Translate.setClientId("ianir");
 		Translate.setClientSecret("dUap2bXo4ZYJ2JMxiHmQzA/CI54e55lNnGY+Gpx+Lr8=");
-		/*Translate.setClientId("irproject");
-		Translate.setClientSecret("XACoemwSVv/FBKYaSY7UJI48yAWi75wQKmdDZl5Rxt8=");*/
-		/*Translate.setClientId("siweiliu42");
-        Translate.setClientSecret("DmPmwMFLun2qPQL7JoZ3YjocpK0REDnnnJ81oOTW1s8=");*/
+		/*
+		 * Translate.setClientId("irproject");
+		 * Translate.setClientSecret("XACoemwSVv/FBKYaSY7UJI48yAWi75wQKmdDZl5Rxt8=");
+		 */
+		/*
+		 * Translate.setClientId("siweiliu42");
+		 * Translate.setClientSecret("DmPmwMFLun2qPQL7JoZ3YjocpK0REDnnnJ81oOTW1s8=");
+		 */
 	}
 
 	public BingTranslatorService(String fromName, String toName) {
-		/*Translate.setClientId("ianir");
-		Translate.setClientSecret("dUap2bXo4ZYJ2JMxiHmQzA/CI54e55lNnGY+Gpx+Lr8=");*/
+		/*
+		 * Translate.setClientId("ianir");
+		 * Translate.setClientSecret("dUap2bXo4ZYJ2JMxiHmQzA/CI54e55lNnGY+Gpx+Lr8=");
+		 */
 		this.setOriginLan(Language.valueOf(fromName));
 		this.setDestLan(Language.valueOf(toName));
 	}
@@ -75,77 +81,76 @@ public class BingTranslatorService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String processLargeText(String line) throws Exception{
+	public String processLargeText(String line) throws Exception {
 		StringBuilder output = new StringBuilder();
-		while(line != null){
-			int pos = line.lastIndexOf(delimeter, MAXBYTES/bytesPerChar);
-			if(pos == -1){
-				pos = Math.min(MAXBYTES/bytesPerChar, line.length()-1);
+		while (line != null) {
+			int pos = line.lastIndexOf(delimeter, MAXBYTES / bytesPerChar);
+			if (pos == -1) {
+				pos = Math.min(MAXBYTES / bytesPerChar, line.length() - 1);
 			}
-			String tmp = Translate.execute(line.substring(0,pos+1), originLan, destLan);
+			String tmp = Translate.execute(line.substring(0, pos + 1), originLan, destLan);
 			output.append(tmp);
-			if(pos+1 < line.length()){
-				line = line.substring(pos+1);
-			}	
-			else{
+			if (pos + 1 < line.length()) {
+				line = line.substring(pos + 1);
+			} else {
 				line = null;
 			}
 		}
-		return output.toString(); 
+		return output.toString();
 	}
-	
+
 	// public void translate() throws Exception{
-	// 	String inputFile = "data//zhihutrans.txt";
-	// 	String outputFile = "data//zhihutrans_answer.txt";
- //        File file = new File(inputFile);
- //        File dest = new File(outputFile);
-	//     try {
-	// 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));
-	// 		BufferedWriter writer  = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dest),"utf-8"));
-	// 		String line = "";
-	// 		int  i = 0;
-	// 		while((line = reader.readLine()) != null){
-	// 			if(i > 413712){
-	// 				String string = line;
-	// 				if(line.contains("<p>")){
-	// 					string += "\n";
-	// //					int pos1 = line.indexOf("<title>") + 7;
-	// //					int pos2 = line.indexOf("</title>");
-	// //					line = line.substring(pos1, pos2);
-	// 					while(!(line = reader.readLine()).contains("</p>")){
-	// 						i++;
-	// 						printLineNum(i);
-	// 						if(line.getBytes().length < MAXBYTES / bytesPerChar){
-	// 							string += Translate.execute(line, originLan, destLan) + "\n";
-	// 						}
-	// 						else{
-	// 							string += processLargeText(line) + "\n";
-	// 						}
-	// 	//					string = "<title>" + string+ "</title>";
-	// 					}
-	// 					if(line.equals("</p>")){
-	// 						i++;
-	// 						printLineNum(i);
-	// 						string += "</p>";
-	// 					}
-	// 				}
-	// 				writer.write(string + "\n");
-	// 				writer.flush();	
-	// 			}
-	// 			i++;
-	// 			printLineNum(i);	
-	// 		}
-	// 		writer.flush();
-	// 		reader.close();
-	// 		writer.close();
-	// 	} catch (FileNotFoundException e) {
-	// 		e.printStackTrace();
-	// 	} catch (IOException e) {
-	// 		e.printStackTrace();
-	// 	} 
+	// String inputFile = "data//zhihutrans.txt";
+	// String outputFile = "data//zhihutrans_answer.txt";
+	// File file = new File(inputFile);
+	// File dest = new File(outputFile);
+	// try {
+	// BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));
+	// BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dest),"utf-8"));
+	// String line = "";
+	// int i = 0;
+	// while((line = reader.readLine()) != null){
+	// if(i > 413712){
+	// String string = line;
+	// if(line.contains("<p>")){
+	// string += "\n";
+	// // int pos1 = line.indexOf("<title>") + 7;
+	// // int pos2 = line.indexOf("</title>");
+	// // line = line.substring(pos1, pos2);
+	// while(!(line = reader.readLine()).contains("</p>")){
+	// i++;
+	// printLineNum(i);
+	// if(line.getBytes().length < MAXBYTES / bytesPerChar){
+	// string += Translate.execute(line, originLan, destLan) + "\n";
 	// }
-	public void printLineNum(int num){
-		if(num % 100 == 0){
+	// else{
+	// string += processLargeText(line) + "\n";
+	// }
+	// // string = "<title>" + string+ "</title>";
+	// }
+	// if(line.equals("</p>")){
+	// i++;
+	// printLineNum(i);
+	// string += "</p>";
+	// }
+	// }
+	// writer.write(string + "\n");
+	// writer.flush();
+	// }
+	// i++;
+	// printLineNum(i);
+	// }
+	// writer.flush();
+	// reader.close();
+	// writer.close();
+	// } catch (FileNotFoundException e) {
+	// e.printStackTrace();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	public void printLineNum(int num) {
+		if (num % 100 == 0) {
 			System.out.println(num);
 		}
 	}

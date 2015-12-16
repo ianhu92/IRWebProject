@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,10 +24,16 @@
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 		</div>
 		<div class="row" style="margin-top: 40px">
-			<div class="col-xs-10 col-sm-8 col-md-6 col-xs-offset-1 col-sm-offset-2 col-md-offset-3 input-group">
+			<div
+				class="col-xs-10 col-sm-8 col-md-6 col-xs-offset-1 col-sm-offset-2 col-md-offset-3 input-group">
 				<input id="inputBox" type="text" class="form-control input-lg" />
 				<div class="input-group-btn">
-					<button id="searchButton" type="button" class="btn btn-primary btn-lg">Search</button>
+					<button id="searchButton" type="button" class="btn btn-primary btn-lg">
+						<c:choose>
+							<c:when test="${currentLanguage.shortName == 'en'}">Search</c:when>
+							<c:otherwise>&nbsp;搜索&nbsp;</c:otherwise>
+						</c:choose>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -42,7 +49,7 @@
 			<div class="col-xs-1 col-sm-2 col-md-3"></div>
 		</div>
 	</div>
-	
+
 	<!-- researchTip template -->
 	<%@ include file="/resources/template/searchTip.tpl"%>
 	<script>

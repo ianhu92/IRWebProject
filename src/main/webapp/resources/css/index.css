@@ -11,7 +11,7 @@
 #searchButton {
 	/* 	position: absolute;
 	left: calc(100% - 86px); */
-	
+	width: 91px;
 }
 
 #searchTip {

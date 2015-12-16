@@ -138,13 +138,21 @@ public class MainController {
 		for (Result result : resultList) {
 			// process url
 			String url = result.getUrl();
-			if (url != null && url.contains("zhihu.com")) {
-				String originalUrl = URLEncoder.encode(url, "UTF-8");
-				url = "http://www.microsofttranslator.com/bv.aspx?from=&to=en&a=" + originalUrl;
-				result.setUrl(url);
+			if (url != null) {
+				if (url.contains("zhihu.com") && targetLanguage == Language.ENGLISH) {
+					String originalUrl = URLEncoder.encode(url, "UTF-8");
+					url = "http://www.microsofttranslator.com/bv.aspx?from=&to=en&a=" + originalUrl;
+					result.setUrl(url);
+				} else if (url.contains("stackoverflow")
+						&& targetLanguage == Language.CHINESE_SIMPLIFIED) {
+					String originalUrl = URLEncoder.encode(url, "UTF-8");
+					url = "https://translate.googleusercontent.com/translate_c?depth=1&hl=zh-CN&ie=UTF8&prev=_t&rurl=translate.google.com&sl=en&tl=zh-CN&u="
+							+ originalUrl + "&usg=ALkJrhhiR8U_UUCdIKE_IcC8wwVyyjxr4w";
+					result.setUrl(url);
+				}
 			}
 
-			// translate title and answer if necessary
+			// translate title if necessary
 			String title = result.getTitle();
 			if (targetLanguage != Language.ENGLISH) {
 				bingTranslatorService.setOriginLan(Language.ENGLISH);
@@ -162,12 +170,24 @@ public class MainController {
 				// delete all html tags
 				answer = answer.replaceAll("<[^>]*>", "");
 
-				// translate answer
+				// translate and limit answer length
 				if (targetLanguage != Language.ENGLISH) {
+					// initially limit answer length to translate
+					if (answer.length() > 1000) {
+						int lastSpaceIndex = answer.lastIndexOf(".", 1400);
+						answer = answer.substring(0, lastSpaceIndex);
+					}
+
 					answer = bingTranslatorService.translateQuery(answer);
 					if (answer.contains("TranslateApiException")) {
 						return mainService.returnErrorPage(5, "Translator error.");
 					}
+				}
+
+				// limit answer length
+				if (answer.length() > 400) {
+					int lastSpaceIndex = answer.lastIndexOf(" ", 400);
+					answer = answer.substring(0, lastSpaceIndex) + " ...";
 				}
 
 				// set bold text with query terms
@@ -183,15 +203,34 @@ public class MainController {
 							matcher = pattern.matcher(answer);
 						}
 					} else {
-						answer = answer.replaceAll(term, "<b>" + term + "<b>");
+						answer = answer.replaceAll(term, "<b>" + term + "</b>");
 					}
 				}
 				result.setAnswer(answer);
 			}
+
+			// change zhihu to 知乎 if necessary
+			String source = result.getSource();
+			if (targetLanguage == Language.CHINESE_SIMPLIFIED && "zhihu".equals(source)) {
+				result.setSource("知乎");
+			}
 		}
 
 		ModelAndView mv = new ModelAndView("search");
-		mv.addObject("query", query);
+
+		// translate display query if necessary
+		if (queryLanguage == targetLanguage) {
+			mv.addObject("query", originalQuery);
+		} else if (queryLanguage == Language.ENGLISH) {
+			String translatedQuery = bingTranslatorService.translateQuery(query);
+			if (translatedQuery.contains("TranslateApiException")) {
+				return mainService.returnErrorPage(5, "Translator error.");
+			}
+			mv.addObject("query", translatedQuery);
+		} else if (queryLanguage == Language.CHINESE_SIMPLIFIED) {
+			mv.addObject("query", query);
+		}
+
 		mv.addObject("queryEncode", queryEncode);
 		mv.addObject("resultList", resultList);
 		mv.addObject("currentPage", page);

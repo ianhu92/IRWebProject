@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>${query} - Omni Answer</title>
+<title>${query}-OmniAnswer</title>
 <jsp:include page="/WEB-INF/jsp/include/html_head.jsp"></jsp:include>
 
 <link href="./resources/css/search.css" type="text/css" rel="stylesheet" />
@@ -14,7 +14,12 @@
 	<div class=".container-fluid" style="margin-top: 120px">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2 label">
-				<p class="text-left">Top Results For You</p>
+				<p class="text-left">
+					<c:choose>
+						<c:when test="${currentLanguage.shortName == 'en'}">Top Results For You :</c:when>
+						<c:otherwise>最佳结果：</c:otherwise>
+					</c:choose>
+				</p>
 			</div>
 
 			<c:forEach var="result" items="${resultList}">
@@ -23,7 +28,11 @@
 						<a href="${result.url}" target="_blank">${result.title}</a>
 					</div>
 					<div class="col-md-12 vote" style="margin-top: 20px">
-						<span>Votes:</span><span>${result.votes}</span>
+						<span> <c:choose>
+								<c:when test="${currentLanguage.shortName == 'en'}">Votes: </c:when>
+								<c:otherwise>赞同：</c:otherwise>
+							</c:choose>
+						</span><span>${result.votes}</span>
 					</div>
 					<div class="col-md-12 answer" style="margin-top: 5px">
 						<p class="limitAnswer">
@@ -32,7 +41,10 @@
 					</div>
 
 					<div class="col-md-12 source">
-						<span class="sitename">From ${result.source}</span>
+						<span class="sitename"><c:choose>
+								<c:when test="${currentLanguage.shortName == 'en'}">From</c:when>
+								<c:otherwise>来自</c:otherwise>
+							</c:choose> ${result.source}</span>
 					</div>
 				</div>
 			</c:forEach>

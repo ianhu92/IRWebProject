@@ -16,10 +16,14 @@ define(function(require, exports, module) {
 	    bindEvent : function() {
 		    // show searchTip event
 		    $(this.selector.inputBox).on("keyup", function(e) {
-			    if ($(this).val()) {
-				    searchEvent.sendRequest($(this).val());
+			    if (event.which == 13 || event.keyCode == 13) {
+				    $(searchEvent.selector.searchButton).click();
 			    } else {
-				    $(searchEvent.selector.searchTip).hide();
+				    if ($(this).val()) {
+					    searchEvent.sendRequest($(this).val());
+				    } else {
+					    $(searchEvent.selector.searchTip).hide();
+				    }
 			    }
 		    });
 
