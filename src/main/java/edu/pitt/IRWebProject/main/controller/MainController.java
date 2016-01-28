@@ -146,6 +146,10 @@ public class MainController {
 				} else if (url.contains("stackoverflow")
 						&& targetLanguage == Language.CHINESE_SIMPLIFIED) {
 					String originalUrl = URLEncoder.encode(url, "UTF-8");
+					originalUrl=URLDecoder.decode(originalUrl,"UTF-8");
+					originalUrl = "https"+originalUrl.substring(4);
+					originalUrl=URLEncoder.encode(originalUrl,"UTF-8");
+							
 					url = "https://translate.googleusercontent.com/translate_c?depth=1&hl=zh-CN&ie=UTF8&prev=_t&rurl=translate.google.com&sl=en&tl=zh-CN&u="
 							+ originalUrl + "&usg=ALkJrhhiR8U_UUCdIKE_IcC8wwVyyjxr4w";
 					result.setUrl(url);
