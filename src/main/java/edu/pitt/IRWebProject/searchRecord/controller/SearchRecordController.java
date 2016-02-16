@@ -7,9 +7,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,11 +36,9 @@ public class SearchRecordController {
 	 */
 	@RequestMapping(value = "searchTip.json", produces = "application/json")
 	@ResponseBody
-	public String getSearchTip(HttpServletResponse response,
+	public JSONObject getSearchTip(HttpServletResponse response,
 			@RequestParam(value = "query", required = true) String query)
 					throws JSONException, UnsupportedEncodingException {
-		response.setContentType("application/json");
-
 		// decode query with correct encoding
 		String queryEncode = URLEncoder.encode(query, "ISO-8859-1");
 		query = URLDecoder.decode(queryEncode, "UTF-8");
@@ -51,11 +49,11 @@ public class SearchRecordController {
 			for (SearchRecord search : list) {
 				JSONObject jo = new JSONObject();
 				jo.put("query", URLEncoder.encode(search.getQuery(), "UTF-8"));
-				result.put(jo);
+				result.add(jo);
 			}
 		}
 		JSONObject jo = new JSONObject();
 		jo.put("list", list);
-		return jo.toString();
+		return jo;
 	}
 }

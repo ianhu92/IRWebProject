@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +30,7 @@ public class LanguageController {
 	 */
 	@RequestMapping("setLanguage.json")
 	@ResponseBody
-	public String setLanguage(HttpServletResponse httpResponse,
+	public JSONObject setLanguage(HttpServletResponse httpResponse,
 			@RequestParam(value = "language", required = true) String languageShortName) {
 		JSONObject result = new JSONObject();
 		if ("en".equals(languageShortName) || "zh-CHS".equals(languageShortName)) {
@@ -43,6 +43,6 @@ public class LanguageController {
 			result.put("errorCode", 2);
 			result.put("errorMessage", "invalid language short name");
 		}
-		return result.toString();
+		return result;
 	}
 }

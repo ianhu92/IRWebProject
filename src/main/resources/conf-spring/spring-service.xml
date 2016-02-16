@@ -58,8 +58,4 @@
 	<bean class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
-
-	<!-- <bean id="innerJacksonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper"></bean> -->
-
-
 </beans>

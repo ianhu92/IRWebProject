@@ -15,9 +15,25 @@
 
 	<context:component-scan
 		base-package="edu.pitt.IRWebProject.main.controller, edu.pitt.IRWebProject.searchRecord.controller,
-		edu.pitt.IRWebProject.language.controller" />
+		edu.pitt.IRWebProject.language.controller"
+		use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
 
 	<!-- MessageConverters -->
+	<bean id="innerJacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="objectMapper" ref="innerJacksonObjectMapper" />
+	</bean>
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
@@ -29,13 +45,7 @@
 					</property>
 					<property name="writeAcceptCharset" value="false" />
 				</bean>
-				<!-- <bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-					<property name="supportedMediaTypes">
-						<list>
-							<value>application/json</value>
-						</list>
-					</property>
-				</bean> -->
+				<ref bean="jsonConverter" />
 			</list>
 		</property>
 		<property name="webBindingInitializer">
@@ -46,16 +56,4 @@
 			</bean>
 		</property>
 	</bean>
-
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="order" value="2" />
-		<property name="prefix">
-			<value>/WEB-INF/jsp/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean>
-
-
 </beans>
